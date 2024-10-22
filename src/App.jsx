@@ -3,6 +3,8 @@ import "./App.css"
 import { Router, Route, Switch, Redirect } from "wouter";
 import Navbar from './componentes/comun/Navbar'
 import Home from './componentes/Home/Home'
+import Contenedor_categoria from './componentes/admin_components/categoria/Contenedor_categoria'
+import Contenedor_producto from './componentes/comun/Contenedor_producto';
 
 
 export default function App() {
@@ -31,9 +33,9 @@ export default function App() {
 
           <Route children={<span>Page not found 404</span>}/>
         </Switch>
+        
+        <Contenedor_categoria/>
       </Router>
-      
-      
     </>
   )
 }

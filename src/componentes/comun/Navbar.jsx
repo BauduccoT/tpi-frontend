@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'wouter'
 
-
 export default function Navbar() {
   const [buscador,setBuscador]=useState("")
 
