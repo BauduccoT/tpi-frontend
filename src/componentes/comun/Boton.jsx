@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Boton () {
+export default function Boton (props) {
   // Estado para determinar si el botón ha sido clickeado
   const [click, setClick] = useState();
 
@@ -15,11 +15,11 @@ export default function Boton () {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div className='bg-orange-500 text-white py-3 px-4 rounded-md text-lg hover:bg-orange-600'>
       <button onClick={ButtonClick}>
-        {click ? 'Botón clickeado' : 'Haz clic aquí'}
+        {props.texto}
       </button>
-      <p>Estado del botón: {click ? 'Activado' : 'Desactivado'}</p>
+      
     </div>
   );
 };

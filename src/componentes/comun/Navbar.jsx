@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'wouter'
+import iconoCarrito from '../../assets/cart.svg'
 
 
 export default function Navbar() {
@@ -15,6 +16,7 @@ export default function Navbar() {
     <div className='w-screen flex flex-row justify-between md:p-3 sm:p-2 bg-purple-900 items-center'>
       <Link to='/home' className="flex flex-none text-slate-50 content-center justify-center hover:bg-purple-950 p-2 rounded-xl">
         <h2 className='md:text-2xl sm:text-base'>Mercadito</h2>
+        <img src={iconoCarrito}/>
       </Link>
       
       <div className='flex flex-1 md:max-w-xs sm:max-w-52 md:h-9 bg-white items-center rounded-md p-0 m-0'>
