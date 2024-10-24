@@ -1,34 +1,15 @@
-// import { Component } from 'react'
-// import Boton from '../comun/Boton'
-// import Boton from '../comun/Input'
-// import Boton from '../comun/Navbar'
-// import Boton from '../comun/modals/ShowModal'
+import { useState } from "react";
 
+import ContenedorCategorias from '../../comun/ContenedorCategorias'
+import Categoria from '../../comun/Categoria'
+import ContenedorProductos from '../../comun/ContenedorProductos'
+import Producto from '../../comun/Producto'
 
-// export default class Home extends Component{
-//   constructor(props){
-//     super(props)
-//     this.state={
+export default function Home(){
+    
+    return (
+        <div className="mt-14 sm:mt20">
 
-//     }
-//   }
-
-//   render(){
-//     return(
-//         // <div className='Contenedor Login'>
-//         // <form>
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <Boton 
-//         //     ruta='lista-personas'>Iniciar Sesion</Boton>
-//         // </form>
-//         // </div>
-//     )
-//   }
-// }
+        </div>
+    )
+}
