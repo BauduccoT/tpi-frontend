@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Link } from 'wouter'
 
-export default function Categorias (){
+export default function Categoria (){
     const [categoria, setCatecorias]= useState("")
 return(
     <div className="container justify-center">

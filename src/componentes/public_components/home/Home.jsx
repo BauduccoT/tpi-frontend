@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
-//hay que modificar esto
+import ContenedorCategoria from '../../comun/ContenedorCategoria'
+import Categoria from '../../comun/Categoria'
+import ContenedorProducto from '../../comun/ContenedorProducto'
+import Producto from '../../comun/Producto'
 
 export default function Home() {
 
