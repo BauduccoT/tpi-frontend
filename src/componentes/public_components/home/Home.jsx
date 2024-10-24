@@ -1,34 +1,12 @@
-// import { Component } from 'react'
-// import Boton from '../comun/Boton'
-// import Boton from '../comun/Input'
-// import Boton from '../comun/Navbar'
-// import Boton from '../comun/modals/ShowModal'
+import { useState } from 'react'
 
+//hay que modificar esto
 
-// export default class Home extends Component{
-//   constructor(props){
-//     super(props)
-//     this.state={
+export default function Home() {
 
-//     }
-//   }
-
-//   render(){
-//     return(
-//         // <div className='Contenedor Login'>
-//         // <form>
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <input type="text" />
-            
-//         //     <Boton 
-//         //     ruta='lista-personas'>Iniciar Sesion</Boton>
-//         // </form>
-//         // </div>
-//     )
-//   }
-// }
+  return (
+    <div className='mt-14 sm:mt-20'>
+    
+    </div>
+  )
+}

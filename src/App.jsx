@@ -2,40 +2,43 @@ import { useState } from 'react'
 import "./App.css"
 import { Router, Route, Switch, Redirect } from "wouter";
 import Navbar from './componentes/comun/Navbar'
-import Home from './componentes/Home/Home'
-import Contenedor_categoria from './componentes/admin_components/categoria/Contenedor_categoria'
-import Contenedor_producto from './componentes/comun/Contenedor_producto';
+
+import Home from './componentes/public_components/home/Home';
+import VistaProducto from './componentes/public_components/vistaProducto/VistaProducto';
+
 
 
 export default function App() {
 
+  const [navbar,setNavbar]=useState(false)
+
   return (
-    <>
-      <Router>
-        <Navbar/>
+    <div className='min-h-screen'>
+      <Navbar/>
+      <Router>     
+        
         <Switch>
-          <Route path="/">
-            <Redirect to="/home"/>
-          </Route>
           
-          <Route path="/login">
-            <Redirect to="/home"/>
+          <Route path="/">
+            <Redirect to='home'/>
           </Route>
 
           <Route path="/home">
             <Home/>
           </Route>
 
-          <Route path="/carrito">
-            <Home/>
+          
+
+          <Route path="/producto">
+            <VistaProducto/>
           </Route>
 
 
           <Route children={<span>Page not found 404</span>}/>
         </Switch>
         
-        <Contenedor_categoria/>
+        
       </Router>
-    </>
+    </div>
   )
 }
