@@ -10,7 +10,7 @@ export default function Carrito() {
 
 
   return (
-    <div className="bg-gray-200 min-h-screen w-screen">
+    <div className=" w-screen mt-14 sm:mt20">
      
       
       <div className="max-w-5xl mx-auto py-8">
