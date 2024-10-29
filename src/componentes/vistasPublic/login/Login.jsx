@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Link } from "wouter";
-import Boton from '../comun/Boton';
-import Registro from '../registro/Registro';
-import iconoCarrito from '../../assets/cart.svg'
+import Boton from '../../comun/Boton';
+import iconoCarrito from '../../../assets/cart.svg'
 
 export default function Login() {
   const [user, setUser] = useState('');
@@ -38,9 +37,9 @@ export default function Login() {
        
         <br></br>
         <div className="flex justify-center">
-          <Link to='/Home'>
-          <Boton texto='Inicio Sesión'/>
-          </Link>
+          {/* <Link to='/Home'> */}
+          <Boton texto='Inicio Sesión' onClick={()=>console.log("HOLA")}/>
+          {/* </Link> */}
             
           
         </div>

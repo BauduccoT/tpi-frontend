@@ -1,7 +1,7 @@
 import { Component, useState, useEffect } from 'react'
-import Boton from '../comun/Boton'
+import Boton from '../../comun/Boton'
 import { Link } from 'wouter';
-import iconoCarrito from '../../assets/cart.svg'
+import iconoCarrito from '../../../assets/cart.svg'
 
 export default function Registro (props){
     const [form, setForm]=useState({        

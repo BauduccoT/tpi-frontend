@@ -1,8 +1,7 @@
 import React from 'react';
-import Navbar from '../comun/Navbar'; 
-import Boton from '../comun/Boton';
-import iconoQuitar from '../../assets/dash-square.svg'
-import iconoAgregar from '../../assets/plus-square.svg'
+import Boton from '../../comun/Boton';
+import iconoQuitar from '../../../assets/dash-square.svg'
+import iconoAgregar from '../../../assets/plus-square.svg'
 import { Link } from "wouter";
 
 

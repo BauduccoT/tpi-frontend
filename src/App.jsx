@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import "./App.css"
 import { Router, Route, Switch, Redirect } from "wouter";
 import Navbar from './componentes/comun/Navbar'
-import Login from './componentes/login/Login'
-import Registro from './componentes/registro/Registro';
-import Carrito from './componentes/carrito/Carrito';
-import Usuario from './componentes/public_components/usuario/Usuario'
-import Home from './componentes/public_components/home/Home';
-import VistaProducto from './componentes/public_components/vistaProducto/VistaProducto';
+import Login from './componentes/vistasPublic/login/Login'
+import Registro from './componentes/vistasPublic/registro/Registro';
+import Carrito from './componentes/vistasPublic/carrito/Carrito';
+import Usuario from './componentes/vistasPublic/usuario/Usuario'
+import Home from './componentes/vistasPublic/home/Home';
+import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProducto';
 
 
 
