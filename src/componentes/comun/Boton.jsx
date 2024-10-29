@@ -15,7 +15,7 @@ export default function Boton (props) {
   };
 
   return (
-    <div className='bg-orange-500 text-white py-3 px-4 rounded-md text-lg hover:bg-orange-600'>
+    <div className='bg-orange-500 text-white p-3 sm:py-1 sm:px:2 md:py-3 md:px-4 rounded-md text-md hover:bg-orange-600 '>
       <button onClick={ButtonClick}>
         {props.texto}
       </button>
