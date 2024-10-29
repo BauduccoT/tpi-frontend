@@ -3,12 +3,16 @@ import { Link } from 'wouter'
 
 export default function Categoria (){
 
-    const [categoria, setCatecorias]= useState("")
     return(
-        <div className="container justify-center">
-            <div className="flex h-64  justify-center  flex-wrap content-between" >
-                <div className="bg-blue-950  text-slate-50 text px-4 py-2 m-2 w-60 rounded-md"> Monitores </div>
+        
+        <div class="bg-white py-8 px-4  ">
+            <div class="flex gap-4">
+                <div class="bg-blue-950 p-3 items-center text-white rounded-md h-12 transition-all hover:-translate-y-2 duration-300 ">Monitor</div>
+                <div class="bg-blue-950 p-3 items-center text-white rounded-md h-12 transition-all hover:-translate-y-2 duration-300 ">Teclados</div>
+                <div class="bg-blue-950 p-3 items-center text-white rounded-md h-12 transition-all hover:-translate-y-2 duration-300 ">Graficas</div>
             </div>
         </div>
-    )
+    
+   
+)
 }
