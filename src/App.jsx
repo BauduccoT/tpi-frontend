@@ -49,6 +49,8 @@ export default function App() {
             <VistaProducto/>
           </Route>
 
+         
+
           <Route children={<span>Page not found 404</span>}/>
         </Switch>
 

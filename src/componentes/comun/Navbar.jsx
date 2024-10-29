@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
 
-    <div className='w-screen flex flex-row justify-between md:p-3 sm:p-2 bg-purple-900 items-center fixed top-0'>
+    <div className='w-screen z-10 flex flex-row justify-between md:p-3 sm:p-2 bg-purple-900 items-center fixed top-0'>
       <Link to='/home' className="flex flex-row flex-none text-slate-50 content-center justify-center hover:bg-purple-950 p-2 rounded-xl">
         <h2 className='md:text-2xl sm:text-base'>Mercadito </h2><img src={carritoSvg} alt="" />
       </Link>
