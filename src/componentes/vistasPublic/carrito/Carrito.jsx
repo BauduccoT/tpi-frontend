@@ -3,6 +3,7 @@ import Navbar from '../comun/Navbar';
 import Boton from '../comun/Boton';
 import iconoQuitar from '../../assets/dash-square.svg'
 import iconoAgregar from '../../assets/plus-square.svg'
+import { Link } from "wouter";
 
 
 export default function Carrito() {
@@ -106,9 +107,9 @@ export default function Carrito() {
 
       
         <div className="flex justify-between mt-8">
-          <Boton texto="Volver" /> 
+        <Link to='/Home'><Boton texto="Volver"/></Link>
           <Boton texto="Vaciar Carrito"/>
-          <Boton texto="Iniciar" /> 
+          <Boton texto="Finalizar compra" /> 
         </div>
       </div>
     </div>

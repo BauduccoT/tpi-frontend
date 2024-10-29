@@ -5,6 +5,7 @@ import Navbar from './componentes/comun/Navbar'
 import Login from './componentes/login/Login'
 import Registro from './componentes/registro/Registro';
 import Carrito from './componentes/carrito/Carrito';
+import Usuario from './componentes/public_components/usuario/Usuario'
 import Home from './componentes/public_components/home/Home';
 import VistaProducto from './componentes/public_components/vistaProducto/VistaProducto';
 
@@ -48,10 +49,17 @@ export default function App() {
             <Carrito/>
           </Route>
 
+          <Route path="/usuario">
+          <Navbar/>
+            <Usuario/>
+          </Route>
+
           <Route path="/producto">
             <Navbar/>
             <VistaProducto/>
           </Route>
+
+         
 
           <Route children={<span>Page not found 404</span>}/>
         </Switch>

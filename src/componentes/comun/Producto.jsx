@@ -1,23 +1,32 @@
 import React from "react";
+import { Link } from "wouter";
 
-export default function Producto(){
 
-    return(
-        <div className="bg-gray-100 w-full min-h-screen gap-6 flex-wrap justify-center items-center">
-            <div className="w-60 p-h2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-2x1 mt-4 mb-4 lg:mt-0"></div>
-            <img src="descargas/teclado" alt="" />
-            <div className="p-2">
-                <h2 className="font-bold text-lg mb-2">Holaaa</h2>
-                <span class="text-xl font-semibold">$98.000</span>
-
-                <div className="flex items-center gap-2"> 
-                    <span class="text-sm ">Descripcion producto</span>
+export default function Producto() {
+    return (
+        <div className=" flex justify-center items-center">
+            <div className="w-60 p-6 bg-slate-200 rounded-md shadow-lg transform transition-all hover:-translate-y-2 duration-300">
+                <div className="h-40 bg-white rounded-md flex items-center justify-center">
+                    <img src="..." alt="" />
                 </div>
+                
+                <div className="p-4">
+                    <h2 className="font-bold text-lg mb-2">Hours mini</h2>
+                    <span className="text-xl font-semibold">$98.000</span>
 
-                <div className="flex items-center justify-center gap-2 mb-3">
-                    <button class="px-3 py-1 rounded-lg bg-gray-600 hover:bg-gray-500"> Comprar</button>
+                    <div className="flex items-center gap-2 mt-2"> 
+                        <span className="text-sm">Descripción del producto</span>
+                    </div>
+
+                    <div className="flex items-center justify-center gap-2 mb-3 mt-4">
+                        <Link to='/Producto'>
+                        <button className="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition duration-200">Comprar</button>
+                   </Link>
+                    </div>
                 </div>
             </div>
+            
         </div>
-    )
+        
+    );
 }
