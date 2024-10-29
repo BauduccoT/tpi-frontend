@@ -19,7 +19,7 @@ export default function Producto() {
                     </div>
 
                     <div className="flex items-center justify-center gap-2 mb-3 mt-4">
-                        <Link to='/Producto'>
+                        <Link to='/producto'>
                         <button className="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition duration-200">Comprar</button>
                    </Link>
                     </div>

@@ -54,9 +54,9 @@ export default function App() {
             <Usuario/>
           </Route>
 
-          <Route path="/producto">
+          <Route path="/producto/:id">
             <Navbar/>
-            <VistaProducto/>
+            <VistaProducto />
           </Route>
 
          

@@ -63,7 +63,9 @@ export default function Registro (props){
             
             <Link to='/login'><p className='text-white text-decoration-line: underline'>Haga Click Aquí para Iniciar Sesión</p></Link>
             
+            <Link to='/Home'>
             <Boton texto='Registro'/>
+            </Link>
             
         </form>
 

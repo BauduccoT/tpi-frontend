@@ -34,11 +34,13 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Link to='/Registro'><p className='text-white text-decoration-line: underline'>Haga Click Aquí par Registrarse</p></Link>
+        <Link to='/registro'><p className='text-white text-decoration-line: underline'>Haga Click Aquí par Registrarse</p></Link>
        
         <br></br>
         <div className="flex justify-center">
+          <Link to='/Home'>
           <Boton texto='Inicio Sesión'/>
+          </Link>
             
           
         </div>
