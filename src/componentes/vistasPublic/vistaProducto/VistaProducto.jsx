@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import iconoQuitar from "../../../assets/dash-square.svg"
 import iconoAgregar from "../../../assets/plus-square.svg"
+import { useLocation } from "wouter";
 
 
 export default function VistaProducto() {
@@ -13,9 +14,11 @@ export default function VistaProducto() {
         descripcion:""
     });
 
+    const [location, setLocation]=useLocation()
+
     useEffect(()=>{
         
-    })
+    },[])
 
     return(
         <div className="flex flex-col sm:flex-row sm:justify-end w-full sm:h-scren mt-14 p-1 sm:p-2 sm:mt-20">
@@ -51,7 +54,7 @@ export default function VistaProducto() {
                             <img className="w-4 min-w-3" src={iconoAgregar} alt="" />
                         </button>
                     </div>
-                    <button className="w-full text-white bg-orange-500 hover:bg-orange-600 p-3 rounded-md">
+                    <button className="w-full text-white bg-orange-500 hover:bg-orange-600 p-3 rounded-md" >
                         Agregar al carrito
                     </button>
                 </div>

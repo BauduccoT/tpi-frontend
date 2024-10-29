@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'wouter'
+import { Link, useLocation } from 'wouter'
 
 import carritoSvg from "../../assets/carrito.svg"
 import usuarioSvg from "../../assets/usuario.svg"
@@ -8,9 +8,17 @@ import lupaSvg from "../../assets/lupa.svg"
 
 export default function Navbar() {
   const [buscador,setBuscador]=useState("")
+  const [location, setLocation]=useLocation()
 
-  // function handleOnSubmit(event){
-  //   event.preventDefault()
+  //onClick={(e)=>{e.preventDefault()}} 
+
+  // onclick del boton comprobarSesion("usuario")
+
+  // function comprobarSesion(ruta){
+  //   if(sessionStorage.getItem("sesion")==true){
+  //     setLocation("/usuario")
+  //   }
+    
   // }
 
   // Falta crear la funcion en la que se modifique la ruta a la ruta /busqueda y que pase por parametros lo que esta en el input
@@ -23,7 +31,7 @@ export default function Navbar() {
       </Link>
       
       <div className='flex flex-1 md:max-w-xs sm:max-w-52 sm:h-9 md:h-10 bg-white items-center  rounded-sm sm:rounded-md p-0 m-0'>
-        <form className='flex flex-row   justify-center content-center min-w-full min-h-full gap-1'>
+        <form className='flex flex-row justify-center content-center min-w-full min-h-full gap-1'>
           <input type="text" className='text-sm sm:h-7 md:h-8 rounded-sm sm:rounded-md p-2 w-5/6 focus:outline-none ' value={buscador} onChange={(e)=>setBuscador(e.target.value)}/>
           <button type='submit' className='flex justify-center items-center w-2/6 sm:w-1/6 '>
             <img src={lupaSvg} alt="" />
@@ -38,11 +46,11 @@ export default function Navbar() {
           </div>
         </Link>
         
-        <Link to='/usuario' className='flex content-center justify-center hover:bg-purple-950 w-12 h-12 p-2 rounded-xl'>
+        <button className='flex content-center justify-center hover:bg-purple-950 w-12 h-12 p-2 rounded-xl'>
           <div>
             <img src={usuarioSvg} alt="" />
           </div>
-        </Link>
+        </button>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import "./App.css"
 import { Router, Route, Switch, Redirect } from "wouter";
 import Navbar from './componentes/comun/Navbar'
@@ -14,6 +14,10 @@ import VistaProducto from './componentes/public_components/vistaProducto/VistaPr
 export default function App() {
 
   const [navbar,setNavbar]=useState(false)
+
+  // useEffect(()=>{
+  //   sessionStorage.setItem("sesion",true)
+  // },[])
 
   return (
     <div className='min-h-screen'>
