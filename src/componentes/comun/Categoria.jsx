@@ -12,7 +12,5 @@ export default function Categoria (){
                 <div class="bg-blue-950 p-3 items-center text-white rounded-md h-12 transition-all hover:-translate-y-2 duration-300 ">Graficas</div>
             </div>
         </div>
-    
-   
 )
 }
