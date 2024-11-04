@@ -8,6 +8,7 @@ import Carrito from './componentes/vistasPublic/carrito/Carrito';
 import Usuario from './componentes/vistasPublic/usuario/Usuario'
 import Home from './componentes/vistasPublic/home/Home';
 import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProducto';
+import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
 
 
 
@@ -42,6 +43,11 @@ export default function App() {
           <Route path="/home">
             <Navbar/>
             <Home/>
+          </Route>
+
+          <Route path="/busqueda/:prod">
+            <Navbar/>
+            <Busqueda/>
           </Route>
 
           <Route path="/carrito">

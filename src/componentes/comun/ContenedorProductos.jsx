@@ -1,18 +1,14 @@
 import React from "react";
 import Producto from "./Producto";
 
-export default function ContenedorProductos(){
+export default function ContenedorProductos(props){
+    
 
     return(
         <div className=" flex justify-center items-center flex-wrap gap-5">
-            <Producto />
-            <Producto/>
-            <Producto/>
-            <Producto/>
-            <Producto/>
-            <Producto/>
-            <Producto/>
-            <Producto/>
+            {props.lista.map((prod)=>{
+                <Producto prod={prod}/>
+            })}
         </div>
     )
 }

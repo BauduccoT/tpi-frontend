@@ -2,7 +2,9 @@ import React from "react";
 import { Link } from "wouter";
 
 
-export default function Producto() {
+export default function Producto(props) {
+    
+
     return (
         <div className=" flex justify-center items-center">
             <div className="w-60 p-6 bg-slate-200 rounded-md shadow-lg transform transition-all hover:-translate-y-2 duration-300">
@@ -19,9 +21,9 @@ export default function Producto() {
                     </div>
 
                     <div className="flex items-center justify-center gap-2 mb-3 mt-4">
-                        <Link to='/producto'>
-                        <button className="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition duration-200">Comprar</button>
-                   </Link>
+                        <Link to={`/producto/${prod.id}`}>
+                            <button className="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-500 transition duration-200">Comprar</button>
+                        </Link>
                     </div>
                 </div>
             </div>

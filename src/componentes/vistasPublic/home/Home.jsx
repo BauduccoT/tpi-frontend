@@ -11,7 +11,7 @@ export default function Home(){
     return (
         <div className="mt-14 sm:mt20">
             <ContenedorCategorias/>
-            <ContenedorProductos/>
+            {/* <ContenedorProductos/> */}
         </div>
     )
 }

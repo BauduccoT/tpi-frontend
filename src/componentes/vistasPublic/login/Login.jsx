@@ -1,14 +1,21 @@
 import { useState } from 'react';
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import Boton from '../../comun/Boton';
+import eye from '../../../assets/eye.svg'
+import eyeSlash from '../../../assets/eye-slash.svg'
 import iconoCarrito from '../../../assets/cart.svg'
 
 export default function Login() {
+  const [showPass, setShowPass]=useState(false)
+
   const [form, setForm] = useState({
     user:"",
     pass:""
   });
+
+  const [location, setLocation] = useLocation('')
 
   function login(){
     
@@ -17,29 +24,33 @@ export default function Login() {
       user:form.user,
       pass:form.pass
     }
-    axios.post(url,data)
-    .then((resp)=>{
-      
-      sessionStorage.setItem("token",resp.data.token)
-      // if(resp)
-    })
-    .catch((error)=>{
-      console.log(error);
-      alert("Error");
-    })
+    if(data.user!==''&&data.pass!==''){
+      axios.post(url,data)
+      .then((resp)=>{
+        
+        sessionStorage.setItem("token",resp.data.token)
+        // const token=jwtDecode(resp.data.token)
+        // token.data.usuario=='admin'? setLocation('/admin/productos') :  
+        setLocation('/home')
+      })
+      .catch((error)=>{
+        console.log(error);
+        alert("Error");
+      })
+    }
   }
 
   return (
     <div className="flex justify-center items-center min-h-screen w-screen">
     
-      <form className="flex flex-col bg-violet-950 p-20 rounded-lg shadow-md w-100 items-center">
+      <form className="flex flex-col bg-purple-900 p-20 rounded-lg shadow-md w-100 items-center">
+        
         <div className='flex flex-row mb-10'>
           <p className='text-white text-center font-arial text-2xl '>Mercadito</p>
           <img src={iconoCarrito}/>
         </div>
-        
-        
-        <div className="mb-8 hover:p-25">
+
+        <div className="mb-8  w-full hover:p-25">
           <input
             type="text"
             placeholder="User..."
@@ -47,13 +58,17 @@ export default function Login() {
             onChange={(e) => setForm({...form,user:e.target.value})}
           />
         </div>
-        <div className="mb-8"> 
-          <input
-            type="password"
-            placeholder="Password..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setForm({...form,pass:e.target.value})}
-          />
+
+        <div className='mb-8 flex flex-row w-full bg-white rounded'>
+          <input 
+          type={showPass==true ?'text': 'password'}
+          placeholder='Password...' 
+          className="w-full p-2 rounded focus:outline-0"
+          onChange={(e)=>setForm({...form,pass:e.target.value})} />
+          <div className='flex justify-center align-middle p-3 cursor-pointer' onClick={()=> setShowPass(!showPass)}>
+              {showPass==true ? <><img className='h-5' src={eye}/></> : <><img className='h-5' src={eyeSlash}/></>}
+
+          </div>
         </div>
         <Link to='/registro'><p className='text-white text-decoration-line: underline'>Haga Click Aquí par Registrarse</p></Link>
       
