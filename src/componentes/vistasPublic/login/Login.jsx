@@ -10,6 +10,9 @@ import iconoCarrito from '../../../assets/cart.svg'
 export default function Login() {
   const [showPass, setShowPass]=useState(false)
 
+  const [showAlert, setShowAlert]=useState(false)
+  const [alertData, setAlertData]=useState({})
+
   const [form, setForm] = useState({
     user:"",
     pass:""
@@ -35,13 +38,20 @@ export default function Login() {
       })
       .catch((error)=>{
         console.log(error);
-        alert("Error");
+        
+        setAlertData({
+            titulo:'Error',
+            detalle:error.error,
+            check:true
+        })
+        setShowAlert(true)        
       })
     }
   }
 
   return (
     <div className="flex justify-center items-center min-h-screen w-screen">
+      {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
     
       <form className="flex flex-col bg-purple-900 p-20 rounded-lg shadow-md w-100 items-center">
         

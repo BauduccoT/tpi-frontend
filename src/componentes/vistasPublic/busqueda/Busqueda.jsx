@@ -2,32 +2,60 @@ import { useEffect, useState } from "react"
 import { useParams } from "wouter"
 import axios from "axios"
 import ContenedorProductos from "../../comun/ContenedorProductos"
+import Alert from "../../comun/Alert"
 
 export default function Busqueda (props){
     const params = useParams()
 
     const [listaProd, setListaProd]=useState([])
-    
 
+    const [showAlert, setShowAlert]=useState(false)
+    const [alertData, setAlertData]=useState({})
+    
     useEffect(()=>{
+        buscarProductos()
+    },[params.nombreProducto])
+
+    function buscarProductos(){
         const url='http://localhost:3000/api/productos/busqueda'
         const data={
             params:{
-                prod:params.prod
+                nombre:params.nombreProducto
             }
         }
         axios.get(url, data)
         .then((resp)=>{
-           setListaProd(resp.lista)
+            if(resp.data.lista)setListaProd(resp.data.lista)
+            if(resp.data.error){
+                setListaProd([])
+                setAlertData({
+                    titulo:'Error',
+                    detalle:resp.data.error,
+                    check:false
+                })
+                setShowAlert(true)
+            }
         })
         .catch((error)=>{
-            alert('error')
+            setAlertData({
+                titulo:'Error',
+                check:false
+            })
+            setShowAlert(true)
         })
-    },[])
+    }
 
     return(
-        <div className="w-screen mt-14 sm:mt20"> 
-            {/* <ContenedorProductos lista={listaProd}/> */}
+        <div className="left-0 right-0 mt-14 sm:mt-24">
+            {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
+            <div className="flex pl-9 my-4 w-min">
+                <button className="p-2 rounded-md bg-slate-200 " onClick={()=>buscarProductos()}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                    </svg>
+                </button>
+            </div>
+            {listaProd!==null?<ContenedorProductos lista={listaProd}/>:null}
         </div>
     )
 }

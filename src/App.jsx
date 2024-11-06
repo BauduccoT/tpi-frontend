@@ -45,7 +45,7 @@ export default function App() {
             <Home/>
           </Route>
 
-          <Route path="/busqueda/:prod">
+          <Route path="/busqueda/:nombreProducto">
             <Navbar/>
             <Busqueda/>
           </Route>
@@ -56,7 +56,7 @@ export default function App() {
           </Route>
 
           <Route path="/usuario">
-          <Navbar/>
+            <Navbar/>
             <Usuario/>
           </Route>
 
@@ -65,9 +65,14 @@ export default function App() {
             <VistaProducto />
           </Route>
 
-         
-
-          <Route children={<span>Page not found 404</span>}/>
+          <Route>
+            <Navbar/>
+            <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Page not found 404
+              </p>
+            </div>
+          </Route>
         </Switch>
 
       </Router> 
