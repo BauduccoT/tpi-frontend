@@ -1,5 +1,5 @@
 import React from 'react';
-import iconoPersona from '../../../assets/person.svg';
+import iconoPersona from '../../assets/person.svg';
 
 export default function AdminsItem() {
   return (

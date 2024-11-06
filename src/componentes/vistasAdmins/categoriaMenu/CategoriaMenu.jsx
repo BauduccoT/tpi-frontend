@@ -15,8 +15,6 @@ export default function CategoriaMenu() {
 
   return (
     <div className="flex h-screen bg-gray-300">
-      
-      <NavbarAdmins />
 
       {/* Main Content */}
       <div className="flex-1 bg-white ">

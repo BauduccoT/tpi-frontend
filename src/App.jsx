@@ -9,8 +9,8 @@ import Carrito from './componentes/vistasPublic/carrito/Carrito';
 import Usuario from './componentes/vistasPublic/usuario/Usuario'
 import Home from './componentes/vistasPublic/home/Home';
 import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProducto';
-import CategoriaMenu from './componentes/admin_components/vistasAdmins/CategoriaMenu';
-import AdminsMenu from './componentes/admin_components/vistasAdmins/AdminsMenu';
+import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMenu';
+import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
 
 
@@ -55,6 +55,11 @@ export default function App() {
             <Busqueda/>
           </Route>
 
+          <Route path="/producto/:id">
+            <Navbar/>
+            <VistaProducto />
+          </Route>
+
           <Route path="/carrito">
             <Navbar/>
             <Carrito/>
@@ -65,21 +70,22 @@ export default function App() {
             <Usuario/>
           </Route>
 
-          <Route path="/admin/categoria">
-          
+          <Route path="/admin/categorias">
+            <NavbarAdmins/>
+            <CategoriaMenu/>
+          </Route>
+
+          <Route path="/admin/productos">
+            <NavbarAdmins/>
             <CategoriaMenu/>
           </Route>
 
           <Route path="/admin/admins">
             <NavbarAdmins/> 
-
             <AdminsMenu/>
           </Route>
 
-          <Route path="/producto/:id">
-            <Navbar/>
-            <VistaProducto />
-          </Route>
+          
 
           <Route>
             <Navbar/>
