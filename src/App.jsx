@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import "./App.css"
 import { Router, Route, Switch, Redirect } from "wouter";
 import Navbar from './componentes/comun/Navbar'
-import NavbarAdmins from './componentes/admin_components/comunAdmins/NavbarAdmins'
+import NavbarAdmins from './componentes/comunAdmins/NavbarAdmins'
 import Login from './componentes/vistasPublic/login/Login'
 import Registro from './componentes/vistasPublic/registro/Registro';
 import Carrito from './componentes/vistasPublic/carrito/Carrito';

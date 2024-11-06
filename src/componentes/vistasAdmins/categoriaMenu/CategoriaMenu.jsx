@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import NavbarAdmins from '../comunAdmins/NavbarAdmins';
-import CategoriaItem from '../comunAdmins/CategoriaItem'; 
-import ModalCat from '../comunAdmins/ModalCategoria';
+import NavbarAdmins from '../../comunAdmins/NavbarAdmins';
+import CategoriaItem from '../../comunAdmins/CategoriaItem'; 
+import ModalCat from '../../comunAdmins/ModalCategoria';
 
 export default function CategoriaMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);

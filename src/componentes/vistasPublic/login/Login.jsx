@@ -6,6 +6,7 @@ import Boton from '../../comun/Boton';
 import eye from '../../../assets/eye.svg'
 import eyeSlash from '../../../assets/eye-slash.svg'
 import iconoCarrito from '../../../assets/cart.svg'
+import Alert from '../../comun/Alert';
 
 export default function Login() {
   const [showPass, setShowPass]=useState(false)
@@ -42,10 +43,17 @@ export default function Login() {
         setAlertData({
             titulo:'Error',
             detalle:error.error,
-            check:true
+            check:false
         })
         setShowAlert(true)        
       })
+    }
+    else{
+      setAlertData({
+        titulo:'Falta completar campos',
+        check:false
+      })
+      setShowAlert(true)   
     }
   }
 
