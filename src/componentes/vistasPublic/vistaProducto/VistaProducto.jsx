@@ -1,51 +1,86 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
+import Alert from "../../comun/Alert";
 import iconoQuitar from "../../../assets/dash-square.svg"
 import iconoAgregar from "../../../assets/plus-square.svg"
-import { useLocation } from "wouter";
+import { useParams } from "wouter";
 
 
 export default function VistaProducto() {
 
+    const params=useParams()
+
     const [producto,setProducto]=useState({
-        img:undefined,
+        // img:"",
         nombre:"",
         precioUnidad:"",
         categorias:[],
         descripcion:""
     });
 
-    const [location, setLocation]=useLocation()
+    const [showAlert, setShowAlert]=useState(false)
+    const [alertData, setAlertData]=useState({})
+
+    function buscarProducto(){
+        const url='http://localhost:3000/api/productos'
+        const data={
+            params:{
+                id:params.id
+            }
+        }
+        axios.get(url, data)
+        .then((resp)=>{
+            console.log(resp.data.producto[0])
+            if(resp.data.producto[0])setProducto({
+                img:resp.data.producto[0].img_url!==null?resp.data.lista.img_url:null,
+                nombre:resp.data.producto[0].nombre,
+                precioUnidad:resp.data.producto[0].precio_unidad,
+                descripcion:resp.data.producto[0].descripcion
+            })
+            if(resp.data.error){
+                setAlertData({
+                    titulo:'Error',
+                    detalle:resp.data.error,
+                    check:false
+                })
+                setShowAlert(true)
+            }
+        })
+        .catch((error)=>{
+            console.log(error)
+            setAlertData({
+                titulo:'Error',
+                check:false
+            })
+            setShowAlert(true)
+        })
+    }
 
     useEffect(()=>{
-        
-    },[])
+        buscarProducto()
+    },[params.id])
 
     return(
         <div className="flex flex-col sm:flex-row sm:justify-end w-full sm:h-scren mt-14 p-1 sm:p-2 sm:mt-20">
+            {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
             
             <div className="sm:fixed sm:top-0 sm:left-0 sm:mt-20 flex flex-col justify-center items-center w-full sm:w-1/3 p-2 sm:p-3">
 
-                <div className="flex min-w-full px-6 border-solid border border-slate-400">
+                <div className="flex min-w-full sm:max-h-80 px-10 sm:px-20 border-solid border border-slate-400">
                     <img className="min-w-full h-auto " src={iconoAgregar}/>
                 </div>
             </div>
 
-            <div className="flex w-full flex-col-reverse sm:flex-row sm:w-2/3 gap-10 sm:gap-2 p-2 sm:px-3">
-                <div className="flex w-full p-3 sm:p-4 sm:w-3/5 md:w-3/4">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, molestias illum ipsum aut doloremque minima voluptate maxime porro architecto quia mollitia? Eius neque qui, enim placeat illo minus cum non.
-                    Libero praesentium illo inventore itaque repellendus tempora deleniti illum omnis minima, corporis officia delectus similique impedit non, nostrum maxime cum voluptates cupiditate. Eos minus veniam tempora consequuntur distinctio at nam.
-                    Rem esse incidunt similique officia eos architecto ipsam obcaecati asperiores, fuga, quidem in ea nemo amet quia aliquid veniam repellendus dolore sit illum corporis? Tempora quae aliquid natus incidunt at?
-                    Vitae enim, reiciendis, temporibus animi, ullam illo hic id cupiditate nulla dolor veritatis autem ipsum aspernatur. Possimus, inventore ex. Necessitatibus quia enim nostrum adipisci ducimus natus blanditiis veniam a libero.
-                    Eius dolorum delectus, mollitia magnam aliquam cupiditate. Omnis, consequatur iure minima perferendis hic consequuntur voluptatem, ut animi atque rerum dignissimos eaque in quasi illo? Libero placeat cum cupiditate quisquam. Doloribus?
-                    Est earum unde facilis. Laboriosam nihil quasi eius blanditiis id. Labore in eos inventore autem? Possimus odit est, esse placeat, hic similique harum dolores quaerat dolorum quas natus aliquam totam.
-                    Quaerat error accusamus consequatur esse accusantium aperiam quia pariatur quas, molestias magni vel molestiae quo necessitatibus saepe, consequuntur officia optio. Aspernatur quod aut possimus qui laborum. Tempora, ipsam voluptate? Doloribus.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, impedit consequatur eius, aliquid at reiciendis debitis id recusandae quas ut culpa odio! Inventore harum accusantium dignissimos neque id odit eaque!Lorem
+            <div className="flex w-full flex-col-reverse justify-between sm:flex-row sm:w-2/3 gap-10 sm:gap-2 p-2 sm:px-3">
+                <div className="flex text-xl sm:flex-col w-full p-3 sm:p-4 sm:w-2/4 md:w-4/6">
+                    <p>Descripcion:</p>
+                    <br />
+                    {producto.descripcion}
                 </div>
 
-                <div className="flex flex-col content-center w-full p-1 gap-7 shadow-lg rounded-md sm:h-fit  sm:py-12 bg-slate-100 sm:p-3 sm:w-2/5 md:w-1/4">
-                    <p className="flex text-2xl justify-center">Titulo</p>
-                    <p className="flex text-xl justify-center ">precio</p>
+                <div className="flex flex-col content-center w-full p-3 gap-7 shadow-lg rounded-md sm:h-fit  sm:py-12 bg-slate-100 sm:p-3 md:p-6 sm:w-2/4 md:w-2/6">
+                    <p className="flex text-2xl justify-center">{producto.nombre}</p>
+                    <p className="flex text-xl justify-center ">$ {producto.precioUnidad}</p>
                     <div className="flex flex-row justify-center items-center gap-3">
                         <button className="flex justify-center items-center max-h-min w-fit md:rounded-md hover:bg-slate-300 md:h-8 md:w-8">
                             <img className="w-4 min-w-3" src={iconoQuitar} alt="" />

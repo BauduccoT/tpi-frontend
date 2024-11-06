@@ -11,6 +11,7 @@ import Home from './componentes/vistasPublic/home/Home';
 import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProducto';
 import CategoriaMenu from './componentes/admin_components/vistasAdmins/CategoriaMenu';
 import AdminsMenu from './componentes/admin_components/vistasAdmins/AdminsMenu';
+import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
 
 
 
@@ -49,13 +50,18 @@ export default function App() {
             <Home/>
           </Route>
 
+          <Route path="/busqueda/:nombreProducto">
+            <Navbar/>
+            <Busqueda/>
+          </Route>
+
           <Route path="/carrito">
             <Navbar/>
             <Carrito/>
           </Route>
 
           <Route path="/usuario">
-          <Navbar/>
+            <Navbar/>
             <Usuario/>
           </Route>
 
@@ -75,9 +81,14 @@ export default function App() {
             <VistaProducto />
           </Route>
 
-         
-
-          <Route children={<span>Page not found 404</span>}/>
+          <Route>
+            <Navbar/>
+            <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Page not found 404
+              </p>
+            </div>
+          </Route>
         </Switch>
 
       </Router> 
