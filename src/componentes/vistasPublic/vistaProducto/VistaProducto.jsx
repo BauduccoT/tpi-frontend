@@ -11,7 +11,7 @@ export default function VistaProducto() {
     const params=useParams()
 
     const [producto,setProducto]=useState({
-        // img:"",
+        img:"",
         nombre:"",
         precioUnidad:"",
         categorias:[],
@@ -32,7 +32,7 @@ export default function VistaProducto() {
         .then((resp)=>{
             console.log(resp.data.producto[0])
             if(resp.data.producto[0])setProducto({
-                img:resp.data.producto[0].img_url!==null?resp.data.lista.img_url:null,
+                img:resp.data.producto[0].img_url,
                 nombre:resp.data.producto[0].nombre,
                 precioUnidad:resp.data.producto[0].precio_unidad,
                 descripcion:resp.data.producto[0].descripcion
@@ -67,7 +67,7 @@ export default function VistaProducto() {
             <div className="sm:fixed sm:top-0 sm:left-0 sm:mt-20 flex flex-col justify-center items-center w-full sm:w-1/3 p-2 sm:p-3">
 
                 <div className="flex min-w-full sm:max-h-80 px-10 sm:px-20 border-solid border border-slate-400">
-                    <img className="min-w-full h-auto " src={iconoAgregar}/>
+                    <img className="min-w-full h-auto " src={`http://localhost:3000/${producto.img}`}/>
                 </div>
             </div>
 

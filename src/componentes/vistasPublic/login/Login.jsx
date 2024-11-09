@@ -31,11 +31,11 @@ export default function Login() {
     if(data.user!==''&&data.pass!==''){
       axios.post(url,data)
       .then((resp)=>{
-        
-        sessionStorage.setItem("token",resp.data.token)
-        // const token=jwtDecode(resp.data.token)
-        // token.data.usuario=='admin'? setLocation('/admin/productos') :  
-        setLocation('/home')
+        if(resp.data.token){
+          sessionStorage.setItem("token",resp.data.token)
+          const token=jwtDecode(resp.data.token)
+          token.data.admin==1 ? setLocation('/admin/productos') :  setLocation('/home')
+        }
       })
       .catch((error)=>{
         console.log(error);

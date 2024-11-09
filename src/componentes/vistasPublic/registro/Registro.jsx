@@ -35,7 +35,7 @@ export default function Registro (props){
         if(data.user!==''&&data.pass!==''&&data.nombre!==''&&data.apellido!==''&data.correo!==''){
             axios.post(url,data)
             .then((resp)=>{
-                if(resp.status=='ok'){
+                if(resp.data.status=='ok'){
                     setAlertData({
                         titulo:'Usuario creado correctamente',
                         check:true

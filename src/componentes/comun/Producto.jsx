@@ -9,7 +9,7 @@ export default function Producto(props) {
         <div className=" flex justify-center items-center">
             <div className="w-60 p-6 bg-slate-200 rounded-md shadow-lg transform transition-all hover:-translate-y-2 duration-300">
                 <div className="h-40 bg-white rounded-md flex items-center justify-center">
-                    <img src="..." alt="" />
+                    <img src={`http://localhost:3000/${props.prod.img}`} alt="" />
                 </div>
                 
                 <div className="p-4">
