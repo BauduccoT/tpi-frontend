@@ -36,13 +36,22 @@ export default function Login() {
           const token=jwtDecode(resp.data.token)
           token.data.admin==1 ? setLocation('/admin/productos') :  setLocation('/home')
         }
+        else{
+          console.log(resp)
+          setAlertData({
+            titulo:'Error',
+            detalle:resp.data.error,
+            check:false
+          })
+          setShowAlert(true)
+        }
       })
       .catch((error)=>{
         console.log(error);
         
         setAlertData({
             titulo:'Error',
-            detalle:error.error,
+            detalle:error.response.data.error,
             check:false
         })
         setShowAlert(true)        

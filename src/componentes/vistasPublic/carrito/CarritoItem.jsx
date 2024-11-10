@@ -9,7 +9,7 @@ export default function CarritoItem(props) {
 
   return (
      
-    <div className="bg-gray-100  space-y-4 p-6 ">
+    <div className="bg-gray-100 space-y-4 p-6 first:rounded-t-lg  last:rounded-b-lg">
 
         <div className=" flex flex-row flex-wrap items-center  px-6 py-4">
         
