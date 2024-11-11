@@ -27,10 +27,19 @@ export default function VistaProducto() {
         }
         else {
             let nuevoCarrito=JSON.parse(carrito)
-            nuevoCarrito.push(prod)
-            sessionStorage.setItem("carrito",JSON.stringify(nuevoCarrito))
+            let existe=false
+            for(let i=0; i<nuevoCarrito.length;i++){
+                if(nuevoCarrito[i].id==prod.id){
+                    existe=true
+                    break
+                }
+            }
+            if(existe==false){
+                nuevoCarrito.push(prod)
+                sessionStorage.setItem("carrito",JSON.stringify(nuevoCarrito)) 
+            }
 
-            // falta revisar que no se repita el producto
+            
         }
     }
 

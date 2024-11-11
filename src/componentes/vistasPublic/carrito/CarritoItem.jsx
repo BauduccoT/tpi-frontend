@@ -6,12 +6,24 @@ export default function CarritoItem(props) {
     const [basura, setBasura]=useState(false)
     const [cantidad, setCantidad]=useState(1)
 
+    function eliminarProd(){
+        let carrito=sessionStorage.getItem("carrito")
+        carrito=JSON.parse(carrito)
+        for(let i=0;i<carrito.length;i++){
+            if(carrito[i].id==props.prod.id){
+                carrito.splice(i,1)
+                if(carrito.length==0) sessionStorage.removeItem("carrito")
+                else sessionStorage.setItem("carrito", JSON.stringify(carrito))
+                props.actualizar()
+            }
+        }
+    }
 
   return (
      
-    <div className="bg-gray-100 space-y-4 p-6 first:rounded-t-lg  last:rounded-b-lg">
+    <div className="bg-gray-100 space-y-4 p-6 first:rounded-t-lg last:rounded-b-lg">
 
-        <div className=" flex flex-row flex-wrap items-center  px-6 py-4">
+        <div className="flex flex-row flex-wrap items-center px-6 py-4">
         
             <div className="flex justify-center w-2/5 sm:w-1/5">
                 <div className="w-16 h-16 bg-gray-300 rounded-md" />
@@ -19,7 +31,7 @@ export default function CarritoItem(props) {
 
 
             <div className="text-center w-3/5 sm:w-2/5">
-                <p className="font-bold text-lg">Producto </p>
+                <p className="font-bold text-lg">{props.prod.nombre}</p>
             </div>
 
             <div className="flex flex-row-reverse sm:flex-row justify-between items-center sm:w-2/5 w-full">
@@ -44,6 +56,7 @@ export default function CarritoItem(props) {
                     <button className='hover:bg-gray-300 p-4  rounded-lg active:bg-gray-400 '
                         onMouseEnter={()=>setBasura(true)}
                         onMouseLeave={()=>setBasura(false)}
+                        onClick={()=>eliminarProd()}
                     >
                         {basura==true?
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
