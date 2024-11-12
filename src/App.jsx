@@ -12,10 +12,7 @@ import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProduct
 import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMenu';
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
-
-
-
-
+import ProductosMenu from './componentes/comunAdmins/ProductosMenu';
 
 export default function App() {
 
@@ -77,7 +74,7 @@ export default function App() {
 
           <Route path="/admin/productos">
             <NavbarAdmins/>
-            <CategoriaMenu/>
+            <ProductosMenu/>
           </Route>
 
           <Route path="/admin/admins">
