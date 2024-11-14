@@ -10,7 +10,6 @@ import axios from "axios";
 export default function Registro (props){
     const [showAlert, setShowAlert]=useState(false)
     const [alertData, setAlertData]=useState({})
-
     const [showPass, setShowPass]=useState(false)
 
     const [form, setForm]=useState({        

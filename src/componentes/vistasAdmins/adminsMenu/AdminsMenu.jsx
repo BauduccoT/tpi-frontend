@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 // import NavbarAdmins from '../comunAdmins/NavbarAdmins';
-import AdminsItem from '../../comunAdmins/Adminsitem';
+import AdminsItem from './Adminsitem';
 import iconoPersona from '../../../assets/person.svg';
-import ModalAdmin from '../../comunAdmins/ModalAdmin';
+import ModalAdmin from './ModalAdmin'
 
 export default function AdminsMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);

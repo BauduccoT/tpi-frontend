@@ -12,7 +12,7 @@ import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProduct
 import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMenu';
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
-import ProductosMenu from './componentes/comunAdmins/ProductosMenu';
+import ProductosMenu from './componentes/vistasAdmins/productosMenu/ProductosMenu'
 
 export default function App() {
 
