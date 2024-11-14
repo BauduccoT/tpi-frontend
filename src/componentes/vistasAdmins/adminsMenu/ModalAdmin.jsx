@@ -10,7 +10,7 @@ export default function ModalAdmin  ({ isOpen, onClose, title }) {
           onClick={onClose}
           className="absolute top-4 right-4 text-red-600 font-bold text-xl"
         >
-          ×
+  
         </button>
 
         {/* Título del Modal */}
@@ -36,6 +36,12 @@ export default function ModalAdmin  ({ isOpen, onClose, title }) {
           className="mt-6 w-full py-2 bg-cyan-600 text-white rounded-md active:bg-cyan-800"
         >
           Crear
+        </button>
+        <button
+          onClick={onClose}
+          className="mt-6 w-full py-2 bg-cyan-600 text-white rounded-md active:bg-cyan-800"
+        >
+          Cerrar
         </button>
       </div>
     </div>

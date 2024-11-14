@@ -1,10 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import NavbarAdmins from '../comunAdmins/NavbarAdmins';
 import AdminsItem from './Adminsitem';
 import iconoPersona from '../../../assets/person.svg';
-import ModalAdmin from './ModalAdmin'
+import ModalAdmin from '../../comunAdmins/ModalAdmin';
+import Alert from '../../comun/Alert';
+import axios from 'axios';
+import { data } from 'autoprefixer';
 
 export default function AdminsMenu() {
+  const [admins,setAdmins]=useState([]) 
+
+  const [showAlert, setShowAlert]=useState(false)
+  const [alertData, setAlertData]=useState({})
+
+  function buscarAdmins(){
+    const url = 'http://localhost:3000/api/usuarios-admin'
+    const token=sessionStorage.getItem("token")
+
+    const config = {
+      headers:{
+        authorization:token
+      }
+    }
+  
+    axios.get (url,config)
+    .then ((resp)=>{
+      console.log(resp.data);
+        
+      
+      if(resp.data.status=="error"){
+        console.log(resp)
+        setAlertData({
+          titulo:'Error',
+          detalle:resp.data.error,
+          check:false
+        })
+        setShowAlert(true)
+      }
+      else{
+        setAdmins(resp.data.usuarios)
+      }
+    })
+    .catch((error)=>{
+      console.log(error);
+      
+      setAlertData({
+          titulo:'Error',
+          detalle:error.response.data.error,
+          check:false
+      })
+      setShowAlert(true)
+    })
+  }
+  useEffect (()=> {
+    buscarAdmins()
+  },[])
+
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal =() => {
@@ -18,6 +70,7 @@ export default function AdminsMenu() {
 
     <div className='w-screen flex justify-end'>
     <div className="flex h-screen w-full  bg-gray-300">
+    {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
       {/* <NavbarAdmins /> */}
 
 
@@ -43,8 +96,8 @@ export default function AdminsMenu() {
 
         {/* Lista de Administradores */}
         <div className="space-y-4 p-6 flex flex-col items-center ">
-          {[...Array(4)].map((_, index) => (
-            <AdminsItem key={index} />
+          {admins?.map((admin, index) => (
+            <AdminsItem modalEditar= {()=> handleOpenModal()} key={admin.id} admin={admin} />
           ))}
         </div>
 
@@ -53,6 +106,7 @@ export default function AdminsMenu() {
         <ModalAdmin isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Administrador">
         <img src={iconoPersona} alt="Icono de usuario" className="h-8 w-8 mr-8" /> 
         </ModalAdmin>
+
       </div>
     </div>
   </div>
