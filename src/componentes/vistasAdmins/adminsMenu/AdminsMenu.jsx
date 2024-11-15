@@ -5,66 +5,63 @@ import iconoPersona from '../../../assets/person.svg';
 import ModalAdmin from '../../comunAdmins/ModalAdmin';
 import Alert from '../../comun/Alert';
 import axios from 'axios';
-import { data } from 'autoprefixer';
+import ModalConfirmar from '../../comunAdmins/ModalConfirmar';
+
 
 export default function AdminsMenu() {
-  const [admins,setAdmins]=useState([]) 
-
-  const [showAlert, setShowAlert]=useState(false)
-  const [alertData, setAlertData]=useState({})
-
-  function buscarAdmins(){
-    const url = 'http://localhost:3000/api/usuarios-admin'
-    const token=sessionStorage.getItem("token")
-
-    const config = {
-      headers:{
-        authorization:token
-      }
-    }
-  
-    axios.get (url,config)
-    .then ((resp)=>{
-      console.log(resp.data);
-        
-      
-      if(resp.data.status=="error"){
-        console.log(resp)
-        setAlertData({
-          titulo:'Error',
-          detalle:resp.data.error,
-          check:false
-        })
-        setShowAlert(true)
-      }
-      else{
-        setAdmins(resp.data.usuarios)
-      }
-    })
-    .catch((error)=>{
-      console.log(error);
-      
-      setAlertData({
-          titulo:'Error',
-          detalle:error.response.data.error,
-          check:false
-      })
-      setShowAlert(true)
-    })
-  }
-  useEffect (()=> {
-    buscarAdmins()
-  },[])
-
-
+  const [admins, setAdmins] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertData, setAlertData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal =() => {
+  
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-  const handleCloseModal =() => {
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  function buscarAdmins() {
+    const url = 'http://localhost:3000/api/usuarios-admin';
+    const token = sessionStorage.getItem("token");
+
+    const config = {
+      headers: {
+        authorization: token
+      }
+    };
+
+    axios.get(url, config)
+      .then((resp) => {
+        console.log(resp.data);
+
+        if (resp.data.status === "error") {
+          setAlertData({
+            titulo: 'Error',
+            detalle: resp.data.error,
+            check: false
+          });
+          setShowAlert(true);
+        } else {
+          setAdmins(resp.data.usuarios);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        setAlertData({
+          titulo: 'Error',
+          detalle: error.response ? error.response.data.error : 'Error de red',
+          check: false
+        });
+        setShowAlert(true);
+      });
+  }
+  
+  useEffect(() => {
+    buscarAdmins();
+  }, []);
 
   return (
 

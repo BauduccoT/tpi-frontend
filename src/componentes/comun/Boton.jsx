@@ -8,10 +8,6 @@ export default function Boton (props) {
     
   })
 
-  // Función para manejar el clic en el botón
-
-  
-
   return (
     <div className='bg-orange-500 text-white p-3 sm:py-3 sm:px-4 rounded-md text-md hover:bg-orange-600 '>
       <button onClick={props.click}>
