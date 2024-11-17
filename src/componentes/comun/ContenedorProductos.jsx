@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Producto from "./Producto";
 
-export default function ContenedorProductos(props){
+export default function ContenedorProductos({listaProductos}){
 
     const [lista, setLista]=useState([])
 
     useEffect(()=>{
-        setLista(props.lista)
+        setLista(listaProductos)
     })
     
 

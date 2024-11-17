@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import "./App.css"
-import { Router, Route, Switch, Redirect } from "wouter";
+import { Router, Route, Switch, Redirect, useLocation } from "wouter";
 import Navbar from './componentes/comun/Navbar'
 import NavbarAdmins from './componentes/comunAdmins/NavbarAdmins'
 import Login from './componentes/vistasPublic/login/Login'
@@ -13,25 +13,28 @@ import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMen
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
 import ProductosMenu from './componentes/comunAdmins/ProductosMenu';
+import { jwtDecode } from 'jwt-decode';
 
 export default function App() {
 
-  const [navbar,setNavbar]=useState(false)
-  
+  const [token,setToken]=useState(null)
 
-  // useEffect(()=>{
-  //   sessionStorage.setItem("sesion",true)
-  // },[])
+  useEffect(()=>{
+    let newToken=sessionStorage.getItem("token")
+    if(newToken==null) return setToken(false)
+    newToken= jwtDecode(newToken)
+    setToken(newToken)
+  },[])
 
   return (
-    <div className='min-h-screen'>
+    <div className=''>
       
       <Router>     
         
         <Switch>
           
           <Route path="/">
-            <Redirect to='login'/>
+            <Redirect to='/login'/>
           </Route>
 
           <Route path="/login">
@@ -52,6 +55,15 @@ export default function App() {
             <Busqueda/>
           </Route>
 
+          <Route path="/busqueda">
+            <Navbar/>
+            <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Por favor, ingrese un producto
+              </p>
+            </div>
+          </Route>
+
           <Route path="/producto/:id">
             <Navbar/>
             <VistaProducto />
@@ -64,22 +76,22 @@ export default function App() {
 
           <Route path="/usuario">
             <Navbar/>
-            <Usuario/>
+            {token !== null?<Usuario/>:<Redirect to='login'/>}
           </Route>
 
           <Route path="/admin/categorias">
             <NavbarAdmins/>
-            <CategoriaMenu/>
+            {token !== null && token.data?.admin && token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/> }
           </Route>
 
           <Route path="/admin/productos">
             <NavbarAdmins/>
-            <ProductosMenu/>
+            {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>}
           </Route>
 
           <Route path="/admin/admins">
-            <NavbarAdmins/> 
-            <AdminsMenu/>
+            <NavbarAdmins/>
+            {token !== null && token.data?.admin && token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>}
           </Route>
 
           

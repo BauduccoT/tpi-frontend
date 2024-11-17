@@ -7,7 +7,7 @@ import eye from '../../../assets/eye.svg'
 import eyeSlash from '../../../assets/eye-slash.svg'
 import axios from "axios";
 
-export default function Registro (props){
+export default function Registro (){
     const [showAlert, setShowAlert]=useState(false)
     const [alertData, setAlertData]=useState({})
 
@@ -66,9 +66,9 @@ export default function Registro (props){
       }
 
      return(
-        <div className='flex justify-center items-center min-h-screen w-screen'>
+        <div className='flex justify-center items-center h-screen  bg-purple-900 sm:bg-white'>
             {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
-        <form className='flex flex-col bg-purple-900 p-10 sm:p-14 sm:w-3/5 md:w-2/4 lg:w-1/3 py-10 gap-6 rounded-lg shadow-md w-100 items-center'>
+        <form className='flex flex-col bg-purple-900 p-10 sm:p-14 sm:w-3/5 md:w-2/4 lg:w-1/3 py-10 gap-6 rounded-lg sm:shadow-md w-100 items-center'>
             
             <div className='flex flex-row'>
                 <p className='text-white text-center font-arial text-2xl '>Mercadito</p>
