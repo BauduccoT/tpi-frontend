@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ModalProd from "./ModalProductos";
 import ProductoItem from "./ProductoItem";
-import Producto from "../comun/Producto";
 export default function ProductosMenu(){
 
     const [isModalOpen, setIsModalOpen] = useState(false);

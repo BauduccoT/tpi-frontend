@@ -34,17 +34,12 @@ export default function Login() {
         if(resp.data.token){
           sessionStorage.setItem("token",resp.data.token)
           const token=jwtDecode(resp.data.token)
-          console.log(token)
           if(token.data.admin===1){
-            console.log('admin');
             setLocation('/admin/productos')
           }
           else{
-            console.log('home');
-            
-            setLocation('/home')
+           setLocation('/home')
           }
-          
         }
         else{
           console.log(resp)

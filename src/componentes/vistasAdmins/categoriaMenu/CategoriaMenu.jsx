@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CategoriaItem from '../../comunAdmins/CategoriaItem'; 
-import ModalCat from '../../comunAdmins/ModalCategoria';
+import CategoriaItem from './CategoriaItem';
+import ModalCat from './ModalCategoria';
 
 export default function CategoriaMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
