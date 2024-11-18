@@ -23,6 +23,7 @@ export default function App() {
     let newToken=sessionStorage.getItem("token")
     if(newToken==null) return setToken(false)
     newToken= jwtDecode(newToken)
+    console.log(newToken)
     setToken(newToken)
   },[])
 
@@ -76,22 +77,27 @@ export default function App() {
 
           <Route path="/usuario">
             <Navbar/>
-            {token !== null?<Usuario/>:<Redirect to='login'/>}
+            <Usuario/>
+            {/* {console.log("Token in /usuario route:", token)}
+            {token !== null && token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>} */}
           </Route>
 
           <Route path="/admin/categorias">
             <NavbarAdmins/>
-            {token !== null && token.data?.admin && token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/> }
+            <CategoriaMenu/>
+            {/* {token !== null && token.data?.admin && token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/> } */}
           </Route>
 
           <Route path="/admin/productos">
             <NavbarAdmins/>
-            {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>}
+            <ProductosMenu/>
+            {/* {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>} */}
           </Route>
 
           <Route path="/admin/admins">
             <NavbarAdmins/>
-            {token !== null && token.data?.admin && token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>}
+            <AdminsMenu/>
+            {/* {token !== null && token.data?.admin && token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>} */}
           </Route>
 
           
