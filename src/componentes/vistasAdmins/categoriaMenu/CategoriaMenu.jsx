@@ -1,9 +1,9 @@
-// CategoriaMenu.js
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import CategoriaItem from '../../comunAdmins/CategoriaItem'; 
-import ModalCat from '../../comunAdmins/ModalCategoria';
 // import ModalAlerta from '../../comunAdmins/ModalAlerta';
+import CategoriaItem from './CategoriaItem';
+import ModalCat from './ModalCategoria';
+
 
 export default function CategoriaMenu() {
   //

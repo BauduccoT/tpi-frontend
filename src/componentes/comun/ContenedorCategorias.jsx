@@ -5,8 +5,8 @@ export default function ContenedorCategorias(){
     
     return(
         <div className=" flex justify-center flex-wrap content-between">
-            <Categorias
-            />
+            <Categorias/>
+
         </div>
     )
 

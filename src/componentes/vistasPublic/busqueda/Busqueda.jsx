@@ -4,7 +4,7 @@ import axios from "axios"
 import ContenedorProductos from "../../comun/ContenedorProductos"
 import Alert from "../../comun/Alert"
 
-export default function Busqueda (props){
+export default function Busqueda (){
     const params = useParams()
 
     const [listaProd, setListaProd]=useState([])
@@ -55,7 +55,7 @@ export default function Busqueda (props){
                     </svg>
                 </button>
             </div>
-            {listaProd!==null?<ContenedorProductos lista={listaProd}/>:null}
+            {listaProd!==null?<ContenedorProductos listaProductos={listaProd}/>:null}
         </div>
     )
 }
