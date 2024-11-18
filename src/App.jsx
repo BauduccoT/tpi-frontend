@@ -8,11 +8,11 @@ import Registro from './componentes/vistasPublic/registro/Registro';
 import Carrito from './componentes/vistasPublic/carrito/Carrito';
 import Usuario from './componentes/vistasPublic/usuario/Usuario'
 import Home from './componentes/vistasPublic/home/Home';
+import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
 import VistaProducto from './componentes/vistasPublic/vistaProducto/VistaProducto';
 import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMenu';
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
-import Busqueda from './componentes/vistasPublic/busqueda/Busqueda';
-import ProductosMenu from './componentes/comunAdmins/ProductosMenu';
+import ProductosMenu from './componentes/vistasAdmins/productosMenu/ProductosMenu';
 import { jwtDecode } from 'jwt-decode';
 
 export default function App() {

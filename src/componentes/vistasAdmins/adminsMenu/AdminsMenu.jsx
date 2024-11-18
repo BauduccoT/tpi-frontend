@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // import NavbarAdmins from '../comunAdmins/NavbarAdmins';
-import AdminsItem from './Adminsitem';
+import AdminsItem from './AdminsItem';
 import iconoPersona from '../../../assets/person.svg';
-import ModalAdmin from '../../comunAdmins/ModalAdmin';
+import ModalAdmin from './ModalAdmin';
 import Alert from '../../comun/Alert';
 import axios from 'axios';
 import { data } from 'autoprefixer';
