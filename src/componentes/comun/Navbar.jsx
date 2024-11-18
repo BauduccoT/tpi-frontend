@@ -59,12 +59,15 @@ export default function Navbar() {
               <img src={carritoSvg} alt="" />
             </div>
           </Link>
-          
+
+
+          <Link to='/usuario'>
           <button className='flex content-center justify-center hover:bg-purple-950 w-12 h-12 p-2 rounded-xl'>
             <div>
               <img src={usuarioSvg} alt="" />
             </div>
           </button>
+          </Link>
         </div>
       </div>
     </div>

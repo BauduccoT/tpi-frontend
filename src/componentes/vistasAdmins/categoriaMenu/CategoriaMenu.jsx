@@ -1,47 +1,97 @@
-import React, { useState } from 'react';
+// CategoriaMenu.js
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 import CategoriaItem from '../../comunAdmins/CategoriaItem'; 
 import ModalCat from '../../comunAdmins/ModalCategoria';
+// import ModalAlerta from '../../comunAdmins/ModalAlerta';
 
 export default function CategoriaMenu() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  //
+  const [modalCategoria, setModalCategoria]= useState(false);
+  //
+  const [listaCategorias, setListaCats] = useState([]);
+  //
+  const [modificar, setModificar] = useState(false);
+  //
+  const [categoriaModif, setCategoriaModif] = useState({});
 
-  const handleOpenModal =() => {
-    setIsModalOpen(true);
+  // const [modalEliminar, setModalEliminar] = useState(false); 
+
+
+  function closeModal(){
+    setModificar(false)
+    setCategoriaModif({})
+    setModalCategoria(false);
   };
-  const handleCloseModal =() => {
-    setIsModalOpen(false);
-  };
+
+
+
+  // Función para obtener las categorías
+  function getCategorias() {
+    const url = 'http://localhost:3000/api/categorias';
+    const token = sessionStorage.getItem("token");
+    const config = { 
+      authorization: token,
+    };
+
+    axios.get(url, config)
+      .then((resp) => {
+        if (resp.data.categorias) 
+          setListaCats(resp.data.categorias);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function openModificar(categoria){
+    setModificar(true)
+    setCategoriaModif(categoria)
+    setModalCategoria(true)
+
+  }
+
+  useEffect(() => {
+    getCategorias();
+  }, []);
 
   return (
     <div className="flex h-screen bg-gray-300">
+      {modalCategoria==true && <ModalCat
+            closeModal={()=>closeModal()}
 
-      {/* Main Content */}
-      <div className="flex-1 bg-white ">
-        
-        {/* Search Bar */}
-        <div className="flex items-center bg-cyan-700 p-4 mb-6  mt-14 justify-center w-full ">
+            getCategorias={getCategorias} // Pasar la función getCategorias
+
+            categoria={categoriaModif}
+
+            modificar={modificar}
+            
+            />
+  
+      }
+      <div className="flex-1 bg-white">
+        <div className="flex items-center bg-cyan-700 p-4 mb-6 mt-14 justify-center w-full">
           <input
             type="text"
             placeholder="Buscar..."
             className="w-1/2 p-2 rounded-md outline-none"
-            style={{ minWidth: '200px' }} 
+            style={{ minWidth: '200px' }}
           />
-          <div className="ml-4 ">
-            <button className="p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold"
-            onClick={handleOpenModal}> Agregar
+          <div className="ml-4">
+            <button className="p-2 bg-orange-500 text-white rounded-md font-bold" onClick={()=>setModalCategoria(true)}>
+              Agregar
             </button>
           </div>
         </div>
+        <div className="space-y-4 p-6 flex flex-col items-center">
+          {listaCategorias?.map((categoria) => (
+            <CategoriaItem 
+            getCategorias={()=>getCategorias()} 
+            key={categoria.id} categoria={categoria} 
+            openModificar={(categoria)=>openModificar(categoria)}
 
-        {/* Categoria Lista */}
-        <div className=" space-y-4 p-6 flex flex-col items-center">
-          {[...Array(5)].map((_, index) => (
-            <CategoriaItem key={index} /> 
+            />
           ))}
-
-          <ModalCat isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Categoria">
-
-        </ModalCat>
         </div>
       </div>
     </div>
