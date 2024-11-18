@@ -56,7 +56,7 @@ export default function Carrito() {
     }
     else{
       const url="http://localhost:3000/api/ventas"
-      const token=jwtDecode(sessionStorage.getItem("token"))
+      const token=sessionStorage.getItem("token")
       const date = new Date();
       const [month, day, year, hour, minutes, seconds] = [
         date.getMonth(),
@@ -69,7 +69,7 @@ export default function Carrito() {
       const fecha= `${year}-${month}-${day} ${hour}:${minutes}:${seconds}`
       const data={
         productos:productos,
-        idUsuario:token.data.id_usuario,
+        idUsuario:jwtDecode(token).data.id_usuario,
         fecha
       }
       const config={
@@ -84,7 +84,8 @@ export default function Carrito() {
         setProductos([])
       })
       .catch((error)=>{
-        if(error.data.error) alert("error")
+        console.log(error)
+        alert("error")
       })
     }
     

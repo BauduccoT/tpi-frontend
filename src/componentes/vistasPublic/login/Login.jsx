@@ -33,8 +33,8 @@ export default function Login() {
       .then((resp)=>{
         if(resp.data.token){
           sessionStorage.setItem("token",resp.data.token)
-          const token=jwtDecode(resp.data.token)
-          if(token.data.admin===1){
+          const token=jwtDecode(resp.data.token)          
+          if(token.data.admin>=1){
             setLocation('/admin/productos')
           }
           else{
