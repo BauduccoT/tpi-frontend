@@ -1,53 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
-export default function CarritoItem(props) {
+export default function CarritoItem({producto, eliminarProd, setUnidCarrito}) {
 
     const [basura, setBasura]=useState(false)
-    const [cantidad, setCantidad]=useState(1)
 
-    function eliminarProd(){
-        let carrito=sessionStorage.getItem("carrito")
-        carrito=JSON.parse(carrito)
-        for(let i=0;i<carrito.length;i++){
-            if(carrito[i].id==props.prod.id){
-                carrito.splice(i,1)
-                if(carrito.length==0) sessionStorage.removeItem("carrito")
-                else sessionStorage.setItem("carrito", JSON.stringify(carrito))
-                props.actualizar()
-            }
-        }
+
+    function validacionInput(valorInput){
+        if (/^[0-9]*$/.test(valorInput)){
+            if (valorInput == '' || valorInput == '0') setUnidCarrito(producto.id, "")
+            else if(parseInt(valorInput)> parseInt(producto.stock)) setUnidCarrito(producto.id, producto.stock)
+            else setUnidCarrito(producto.id, parseInt(valorInput))
+        } 
     }
 
-  return (
-     
-    <div className="bg-gray-100 space-y-4 p-6 first:rounded-t-lg last:rounded-b-lg">
+    function blurInput(valorInput){
+        if(valorInput=='' || valorInput=='0') setUnidCarrito(producto.id, parseInt(1))
+    }
 
-        <div className="flex flex-row flex-wrap items-center px-6 py-4">
+    useEffect(()=>{
+        setUnidCarrito(producto.id, producto.unidades)
+    },[producto.unidades])
+    
+    return (
         
-            <div className="flex justify-center w-2/5 sm:w-1/5">
-                <div className="w-16 h-16 bg-gray-300 rounded-md" />
-            </div>
+    <div className=" space-y-4 p-6 first:rounded-t-lg last:rounded-b-lg">
+        
+
+        <div className="flex gap-4 sm:gap-0 flex-row flex-wrap items-center px-6 py-4">
+        
+            <div className='flex flex-row items-center w-full sm:w-3/5'>
+                <div className="flex justify-center w-2/5 ">
+                    <div className="w-16 h-16 bg-gray-300 rounded-md" />
+                </div>
 
 
-            <div className="text-center w-3/5 sm:w-2/5">
-                <p className="font-bold text-lg">{props.prod.nombre}</p>
+                <div className="flex flex-col sm:flex-row w-3/5 gap-3 justify-center text-center sm:justify-evenly">
+                    <p className="font-bold text-xl">{producto.nombre}</p>
+                    <p className="font-bold text-xl">$ {producto.precio*producto.unidades}</p>
+                </div>
             </div>
 
             <div className="flex flex-row-reverse sm:flex-row justify-between items-center sm:w-2/5 w-full">
                 
                 <div className='flex flex-row justify-center gap-4 w-3/5'>
-                    <button>
+                    <button 
+                        onClick={()=>setUnidCarrito(producto.id, producto.unidades>1?producto.unidades-1:1)}
+                        disabled={producto.unidades==1?"disabled":""} 
+                        className='disabled:text-slate-400'
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                            <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                            <path fillRule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
                         </svg>
                     </button>
 
-                    <input type="text" value={cantidad} onChange={(e)=>setCantidad(e.target.value)} className="w-12 text-center rounded" />
+                    <input type="text"
+                        autoComplete="off"
+                        onChange={(e) => validacionInput(e.target.value)}
+                        value={producto.unidades}
+                        onBlur={(e) => blurInput(e.target.value)}
+                        onKeyDown={(e)=>{if(e.key === 'Enter')e.target.blur()}}
+                        className="w-12 text-center rounded"
+                    />
 
-                    <button>
+                    <button
+                        onClick={()=>setUnidCarrito(producto.id, producto.unidades<producto.stock?producto.unidades+1:producto.stock)}
+                        disabled={producto.unidades==producto.stock?"disabled":""}
+                        className='disabled:text-slate-400'
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                            <path fillRule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+                            <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
                         </svg>
                     </button>
                 </div>           
@@ -56,7 +78,7 @@ export default function CarritoItem(props) {
                     <button className='hover:bg-gray-300 p-4  rounded-lg active:bg-gray-400 '
                         onMouseEnter={()=>setBasura(true)}
                         onMouseLeave={()=>setBasura(false)}
-                        onClick={()=>eliminarProd()}
+                        onClick={()=>eliminarProd(producto.id)}
                     >
                         {basura==true?
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -78,7 +100,7 @@ export default function CarritoItem(props) {
     </div>
 
 
-  );
+    );
 };
 
 

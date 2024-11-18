@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from "wouter";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -33,8 +33,13 @@ export default function Login() {
       .then((resp)=>{
         if(resp.data.token){
           sessionStorage.setItem("token",resp.data.token)
-          const token=jwtDecode(resp.data.token)
-          token.data.admin>=1 ? setLocation('/admin/productos') :  setLocation('/home')
+          const token=jwtDecode(resp.data.token)          
+          if(token.data.admin>=1){
+            setLocation('/admin/productos')
+          }
+          else{
+           setLocation('/home')
+          }
         }
         else{
           console.log(resp)
@@ -66,11 +71,17 @@ export default function Login() {
     }
   }
 
+  // useEffect(()=>{
+  //   const token=sessionStorage.getItem("token")
+  //   if(token!==null && token.data?.admin>0 ) setLocation("/admin/productos")
+  //   else if(token!==null)setLocation("/home")
+  // })
+
   return (
-    <div className="flex justify-center items-center min-h-screen w-screen">
+    <div className="flex justify-center items-center h-screen bg-purple-900 sm:bg-white">
       {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
     
-      <form className="flex flex-col bg-purple-900 p-20 rounded-lg shadow-md w-100 items-center">
+      <form className="flex flex-col bg-purple-900 p-20 rounded-lg sm:shadow-md items-center">
         
         <div className='flex flex-row mb-10'>
           <p className='text-white text-center font-arial text-2xl '>Mercadito</p>
@@ -97,9 +108,9 @@ export default function Login() {
 
           </div>
         </div>
-        <Link to='/registro'><p className='text-white text-decoration-line: underline'>Haga Click Aquí par Registrarse</p></Link>
-      
-        <br></br>
+        <Link to='/registro'><p className='text-white text-decoration-line: underline'>Haga click aquí para registrarse</p></Link>
+        <p className='flex justify-center text-white'>o</p>
+        <Link to='/home' className="mb-3"><p className='text-white text-decoration-line: underline'>Continuar sin iniciar sesion</p></Link>
         <div className="flex justify-center">
           <Boton texto='Inicio Sesión' click={(e)=>{
             e.preventDefault()
