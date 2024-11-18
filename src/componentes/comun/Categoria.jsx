@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link } from 'wouter'
 
-export default function Categoria (){
+export default function Categoria (props){
 
 
     return(

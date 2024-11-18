@@ -128,8 +128,6 @@ export default function Registro (){
             
             
         </form>
-
-
        
         </div>
     )

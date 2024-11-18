@@ -69,11 +69,7 @@ export default function AdminsItem({ admin, modalEditar }) {
         </button>
 
         {isModalOpen && (
-          <ModalConfirmar
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            onConfirm={handleConfirmDelete}
-            title="Eliminar Administrador"
+          <ModalConfirmar isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={handleConfirmDelete} title="Eliminar Administrador"
           />
         )}
       </div>
