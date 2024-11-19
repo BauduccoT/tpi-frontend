@@ -50,6 +50,29 @@ export default function ProductosMenu() {
     buscarProd();
   }, [currentPage])
 
+  function deleteProducto(productoId) {
+    const url = `http://localhost:3000/api/producto`;
+    const token = sessionStorage.getItem('token');
+    const config = {
+      params: { id: productoId },
+      headers: {
+        authorization: token,
+      },
+    };
+
+    axios.delete(url, config)
+      .then((resp) => {
+        console.log(resp);
+        
+        if (resp.data.status === 'ok') {
+          buscarProd();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   const handleNextPage = () => {
     setCurrentPage(prevPage=> prevPage + 1)
   }
@@ -88,6 +111,7 @@ export default function ProductosMenu() {
             <ProductoItem
               key={producto.id}
               producto={producto}
+              deleteProducto={deleteProducto}
             />
           ))}
         </div>

@@ -1,37 +1,13 @@
-import React from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-export default function ModalEliminar({ isOpen, onClose, title, categoriaId, getCategorias }) {
-  if (!isOpen) return null;
-
-  function deleteCategorias() {
-    const url = `http://localhost:3000/api/categorias`;
-    const token = sessionStorage.getItem('token');
-    const config = {
-      params: { id: categoriaId },
-      headers: {
-        authorization: token,
-      },
-    };
-
-    axios.delete(url, config)
-      .then((resp) => {
-        if (resp.data.status === 'ok') {
-          getCategorias();
-          onClose();
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
+export default function ModalEliminar({ cerrar, title, id, deleteItem}) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-md shadow-lg p-8 max-w-md w-full relative">
       
         <button
-          onClick={onClose}
+          onClick={()=>cerrar()}
           className="absolute top-4 right-4 text-red-600 font-bold text-xl hover:bg-red-600 hover:text-white rounded-sm transition-all duration-100">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -46,15 +22,17 @@ export default function ModalEliminar({ isOpen, onClose, title, categoriaId, get
         <div className='flex justify-center flex-row gap-5'>
         
         <button
-          onClick={deleteCategorias}
+          onClick={()=>{
+            deleteItem(id)
+            cerrar()
+          }}
           className="mt-6 w-full py-2 bg-red-600 font-medium hover:bg-red-700 transition-all duration-100 text-white rounded-sm active:bg-red-800"
         >
           Eliminar
         </button>
-
-       
+  
         <button
-          onClick={onClose}
+          onClick={()=>cerrar()}
           className="mt-6 w-full py-2 bg-green-500 font-medium hover:bg-green-600 transition-all duration-100 text-white rounded-sm active:bg-green-700"
         >
           Cancelar
