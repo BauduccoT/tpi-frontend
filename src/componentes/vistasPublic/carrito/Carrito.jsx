@@ -49,7 +49,7 @@ export default function Carrito() {
     if(sessionStorage.getItem("token")==null){
       setAlertData({
         titulo:'Inicia sesión',
-        detalle:<>Para poder relizar una compra debes tener una sesión activa. haz click <Link to='/login'>aquí</Link> para iniciar sesión</>,
+        login:true,
         check:false
       })
       setShowAlert(true) 
@@ -79,13 +79,32 @@ export default function Carrito() {
       }
       axios.post(url,data,config)
       .then((resp)=>{
-        if(resp.data.status=="ok")
-        sessionStorage.removeItem("carrito")
-        setProductos([])
+        if(resp.data.status=="ok"){
+          sessionStorage.removeItem("carrito")
+          setProductos([])
+          setAlertData({
+            titulo:'La compra se realizo exitosamente',
+            check:true
+          })
+          setShowAlert(true)
+        }
+        else{
+          setAlertData({
+            titulo:'Hubo un problema con la compra',
+            login:true,
+            check:false
+          })
+          setShowAlert(true)
+        }
       })
       .catch((error)=>{
         console.log(error)
-        alert("error")
+        setAlertData({
+          titulo:'Hubo un problema con la compra',
+          login:true,
+          check:false
+        })
+        setShowAlert(true)
       })
     }
     

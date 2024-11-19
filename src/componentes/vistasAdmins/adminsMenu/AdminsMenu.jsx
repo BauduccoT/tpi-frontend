@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminsItem from './Adminsitem';
+import AdminsItem from './AdminsItem';
 import iconoPersona from '../../../assets/person.svg';
 import ModalAdmin from './ModalAdmin'
 import Alert from '../../comun/Alert';
