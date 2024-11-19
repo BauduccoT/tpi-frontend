@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Alert from '../comun/Alert';
+import Alert from '../../comun/Alert';
 import axios from 'axios';
 
 
