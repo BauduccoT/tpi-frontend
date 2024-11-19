@@ -17,7 +17,6 @@ export default function CategoriaMenu() {
 
   // const [modalEliminar, setModalEliminar] = useState(false); 
 
-
   function closeModal(){
     setModificar(false)
     setCategoriaModif({})
@@ -49,6 +48,29 @@ export default function CategoriaMenu() {
     setCategoriaModif(categoria)
     setModalCategoria(true)
 
+  }
+
+  function deleteCategorias(categoriaId) {
+    const url = `http://localhost:3000/api/categorias`;
+    const token = sessionStorage.getItem('token');
+    const config = {
+      params: { id: categoriaId },
+      headers: {
+        authorization: token,
+      },
+    };
+
+    axios.delete(url, config)
+      .then((resp) => {
+        console.log(resp);
+        
+        if (resp.data.status === 'ok') {
+          getCategorias();
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   useEffect(() => {
@@ -89,7 +111,7 @@ export default function CategoriaMenu() {
             getCategorias={()=>getCategorias()} 
             key={categoria.id} categoria={categoria} 
             openModificar={(categoria)=>openModificar(categoria)}
-
+            deleteCategorias={deleteCategorias}
             />
           ))}
         </div>

@@ -1,5 +1,6 @@
 import check from '../../assets/check-circle.svg'
 import cruz from '../../assets/x-circle.svg'
+import { Link } from 'wouter'
 
 export default function Alert ({data, click, check}){
     return(
@@ -16,6 +17,13 @@ export default function Alert ({data, click, check}){
                         }
                 <h1 className='text-2xl'>{data.titulo}</h1>
                 {data.detalle!==""?<p className='flex justify-center p-2 m-2'>{data.detalle}</p>:null}
+                {data.login==true
+                ?
+                <div className='text-center'>
+                    Para poder relizar una compra debes tener una sesión activa. haz click <Link className="text-decoration-line: underline" to='/login'>aquí</Link> para iniciar sesión
+                </div>
+                :null}
+                
                 <button className="mt-4 px-5 py-3 rounded-md bg-orange-500 text-white" onClick={()=>click(false)}>cerrar</button>
             </div>
         </div>
