@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalEliminar from './ModalEliminar';
+import ModalEliminar from '../../comunAdmins/ModalEliminar';
 
 export default function CategoriaItem({ categoria, openModificar, getCategorias }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
