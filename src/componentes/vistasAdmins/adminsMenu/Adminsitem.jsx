@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import iconoPersona from '../../../assets/person.svg';
+import ModalEliminar from '../../comunAdmins/ModalEliminar';
 import ModalConfirmar from '../../comunAdmins/ModalConfirmar';
 
 import axios from 'axios';
