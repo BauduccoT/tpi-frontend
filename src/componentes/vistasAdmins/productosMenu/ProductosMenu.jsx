@@ -5,7 +5,7 @@ import Alert from '../../comun/Alert';
 import axios from 'axios';
 
 export default function ProductosMenu() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalProdOpen, setModalProdOpen] = useState(false);
   const [productos, setProductos] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertData, setAlertData] = useState({});
@@ -13,18 +13,12 @@ export default function ProductosMenu() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPage = 10
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const [prodEditar, setProdEditar]=useState(null)
 
   function buscarProd() {
     const url = `http://localhost:3000/api/productos?limit=${itemsPage}&offset=${(currentPage - 1) * itemsPage}`
     axios.get(url)
       .then((resp) => {
-        console.log(resp.data);
         if (resp.data.status === "error") {
           setAlertData({
             titulo: "error",
@@ -44,6 +38,114 @@ export default function ProductosMenu() {
         });
         setShowAlert(true);
       });
+  }
+
+  function newProd(form, inputRadio){
+    console.log({form, inputRadio})
+    if (!form.nombre || !form.precio_unidad || !form.stock || !form.descripcion || !form.imagen || !inputRadio) {
+      setAlertData({
+        titulo:'todos los campos son necesarios',
+        check:false
+      })
+      setShowAlert(true)
+    }
+    else{
+      const url = "http://localhost:3000/api/productos";
+      const token = sessionStorage.getItem("token");
+      const config = {
+        headers: {
+          authorization: token,
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+
+      const data = new FormData();
+      data.append('nombre', form.nombre);
+      data.append('precio_unidad', form.precio_unidad);
+      data.append('stock', form.stock);
+      data.append('descripcion', form.descripcion);
+      data.append('categoria', inputRadio);
+      data.append('imagen', form.imagen);
+
+      axios.post(url, data, config)
+      .then((resp) => {
+        if (resp.data.status === 'ok') {
+          setAlertData({
+            titulo: 'Producto creado correctamente',
+            check: true
+          });
+          setShowAlert(true);
+          setModalProdOpen(false)
+          buscarProd()
+        }
+      })
+      .catch((error) => {
+        setAlertData({
+          titulo: 'Error al crear el producto',
+          check: false,
+        });
+        setShowAlert(true);
+      });
+    } 
+  };
+
+  function editarProd(form, inputRadio){
+    console.log({form, inputRadio})
+    if (!form.nombre || !form.precio_unidad || !form.stock || !form.descripcion || !inputRadio) {
+      setAlertData({
+        titulo:'todos los campos son necesarios',
+        check:false
+      })
+      setShowAlert(true)
+      
+    }
+    else{
+      const url = "http://localhost:3000/api/productos";
+      const token = sessionStorage.getItem("token");
+      const config = {
+        params:{
+          id:prodEditar.id
+        },
+        headers: {
+          authorization: token,
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+
+      const data = new FormData();
+      data.append('nombre', form.nombre);
+      data.append('precio_unidad', form.precio_unidad);
+      data.append('stock', form.stock);
+      data.append('descripcion', form.descripcion);
+      data.append('categoria', inputRadio);
+      if(form.imagen)data.append('imagen', form.imagen);
+
+      axios.put(url, data, config)
+      .then((resp) => {
+        if (resp.data.status === 'ok') {
+          setAlertData({
+            titulo: 'Producto modificado correctamente',
+            check: true
+          });
+          setShowAlert(true);
+          setProdEditar(null)
+          setModalProdOpen(false)
+          buscarProd()
+        }
+      })
+      .catch((error) => {
+        setAlertData({
+          titulo: 'Error al crear el producto',
+          check: false,
+        });
+        setShowAlert(true);
+      });
+    }
+  }
+
+  function modalEditarProd(producto){
+    setProdEditar(producto)
+    setModalProdOpen(true)
   }
 
   useEffect(() => {
@@ -67,6 +169,17 @@ export default function ProductosMenu() {
   return (
     <div className="flex h-screen bg-gray-300">
       {showAlert && <Alert data={alertData} click={(value) => setShowAlert(value)} />}
+      {modalProdOpen==true&&
+        <ModalProd 
+          cerrarModal={()=>{
+            setModalProdOpen(false)
+            setProdEditar(null)
+          }} 
+          newProd={(form, inputRadio)=>newProd(form, inputRadio)}
+          editarProd={(form, inputRadio)=>editarProd(form, inputRadio)}
+          prod={prodEditar}
+        />
+      }
       <div className="flex-1 bg-white">
         <div className="flex items-center bg-cyan-700 p-4 mb-6 mt-14 justify-center w-full">
           <input
@@ -79,7 +192,7 @@ export default function ProductosMenu() {
           />
           <div className="ml-4">
             <button className="p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold"
-              onClick={handleOpenModal}> Agregar
+              onClick={()=>setModalProdOpen(true)}> Agregar
             </button>
           </div>
         </div>
@@ -88,21 +201,22 @@ export default function ProductosMenu() {
             <ProductoItem
               key={producto.id}
               producto={producto}
+              editar={(producto)=>modalEditarProd(producto)}
             />
           ))}
         </div>
         <div className="flex justify-center space-x-4">
-          <button className='p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer' onClick={handlePrevPage} disabled={currentPage===1}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+          <button className='p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer' onClick={handlePrevPage} disabled={currentPage===1}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
           </svg>
           </button>
           <h1 className='mt-2'>{currentPage}</h1>
-          <button className='p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer' onClick={handleNextPage}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+          <button className='p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer' onClick={handleNextPage}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
           </svg>
           </button>
         </div>
-        <ModalProd isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Producto"></ModalProd>
+        
       </div>
     </div>
   );
