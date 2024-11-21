@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import Alert from '../../comun/Alert';
 
-export default function ModalProd({ isOpen, onClose, title }) {
-  if (!isOpen) return null;
+export default function ModalProd({cerrarModal, newProd, editarProd, prod}) {
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertData, setAlertData] = useState({});
@@ -12,61 +11,86 @@ export default function ModalProd({ isOpen, onClose, title }) {
     precio_unidad: "",
     stock: "",
     descripcion: "",
-    imagen: null
+    imagen: null,
   });
+
+  const [inputRadio, setInputRadio]=useState(null)
+
+  const [categoriasOpen, setCategoriasOpen]=useState(false)
+  const [listaCategorias, setListaCats] = useState([]);
+
+  const [editar, setEditar]=useState(false)
+
+  useEffect(()=>{
+    if(prod!==null) cargarProd()
+    getCategorias()
+  },[])
+
+  function finalizar(){
+    if(editar==false) newProd(form, inputRadio)
+    else editarProd(form, inputRadio)
+  }
+
+  function cargarProd(){
+    setEditar(true)
+    setForm({
+      nombre: prod.nombre,
+      precio_unidad: prod.precio_unidad,
+      stock: prod.stock,
+      descripcion: prod.descripcion,
+    }) 
+  }
+
+  function getCategorias() {
+    const url = 'http://localhost:3000/api/categorias';
+    axios.get(url)
+    .then((resp) => {
+
+      if(prod!=null && resp.data.categorias) getCatProd(resp.data.categorias)
+      else if(resp.data.categorias) setListaCats(resp.data.categorias) 
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  function getCatProd(lista){
+    
+    const url = 'http://localhost:3000/api/productos/categoria';
+    const token = sessionStorage.getItem("token");
+    
+    const config={
+      params:{
+        id:prod?.id
+      },
+      headers:{
+        authorization:token
+      }
+    }
+    axios.get(url,config)
+    .then((resp) => {
+      if(resp.data.categorias){
+        let catsProd=resp.data.categorias   
+        let listaActualizada = [...lista]     
+        for(let i=0; i<listaActualizada.length; i++){
+          for(let j=0; j<catsProd.length; j++){
+            if(listaActualizada[i].id==catsProd[j].id_categoria){
+              setInputRadio(listaActualizada[i].id)
+              break
+            }
+          }
+        }
+      }
+      setListaCats(lista)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
 
   const handleFileChange = (e) => {
     setForm({ ...form, imagen: e.target.files[0] });
-  };
-
-  function validacion(){
-    if (!form.nombre || !form.precio_unidad || !form.stock || !form.descripcion || !form.imagen) {
-      setAlertData({
-        titulo:'todos los campos son necesarios',
-        check:false
-      })
-      setShowAlert(true)
-      return false
-    }
-    return true
-  }
-
-  function newProd(){
-    if (!validacion())return
-    const url = "http://localhost:3000/api/productos";
-    const token = sessionStorage.getItem("token");
-    const config = {
-      headers: {
-        authorization: token,
-        'Content-Type': 'multipart/form-data'
-      }
-    };
-
-    const data = new FormData();
-    data.append('nombre', form.nombre);
-    data.append('precio_unidad', form.precio_unidad);
-    data.append('stock', form.stock);
-    data.append('descripcion', form.descripcion);
-    data.append('imagen', form.imagen);
-
-    axios.post(url, data, config)
-      .then((resp) => {
-        if (resp.data.status === 'ok') {
-          setAlertData({
-            titulo: 'Producto creado correctamente',
-            check: true
-          });
-          setShowAlert(true);
-        }
-      })
-      .catch((error) => {
-        setAlertData({
-          titulo: 'Error al crear el producto',
-          check: false,
-        });
-        setShowAlert(true);
-      });
-  };
+  };  
 
   const validacionInput = (valorInput, field) => {
     if (/^[0-9]*$/.test(valorInput)) {
@@ -83,12 +107,13 @@ export default function ModalProd({ isOpen, onClose, title }) {
     }
   };
 
+  
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      {showAlert && <Alert data={alertData} click={(value) => setShowAlert(value)} />}
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10 ">
       <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg p-8 max-w-md w-full relative">
         <button
-          onClick={onClose}
+          onClick={()=>cerrarModal()}
           className="absolute top-4 right-4 text-red-600 font-bold text-xl hover:bg-slate-300 rounded-md"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -96,9 +121,9 @@ export default function ModalProd({ isOpen, onClose, title }) {
           </svg>
         </button>
 
-        <h2 className="text-lg font-bold mb-6 text-center">{title}</h2>
+        <h2 className="text-lg font-bold mb-6 text-center">{editar==false?"Crear producto":"Modificar producto"}</h2>
         
-        <div className="space-y-4">
+        <div className={`space-y-4 transition-all duration-200 ${categoriasOpen==true?"h-0 overflow-hidden":" h-70"}`}>
           <input
             type="text"
             placeholder="Nombre Producto"
@@ -137,12 +162,33 @@ export default function ModalProd({ isOpen, onClose, title }) {
             placeholder="seleccionar imagen"
           />
         </div>
+        <div className={`flex flex-row  ${categoriasOpen==true?"mb-5":"mt-5"}`}>
+          <button onClick={()=>setCategoriasOpen(!categoriasOpen)} className='bg-cyan-600 text-white rounded-md p-2 px-4 flex flex-row font-semibold gap-2'>
+            <p className=''>Categorias</p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`size-6 ${categoriasOpen==true?"":"rotate-180"}`}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+        </div>
+
+        <form  className={`space-y-4 transition-all duration-300 ${categoriasOpen==false?"h-0 overflow-hidden":"overflow-y-auto max-h-60"}`}>
+          {listaCategorias.map((categoria,index)=>
+            <div className='flex items-center gap-2 p-2' key={categoria.id}>
+              <input id={categoria.id} type="radio" checked={categoria.id==inputRadio?true:false} value={categoria.id} name='listaCategorias' onChange={(e)=>setInputRadio(e.target.value)}
+                className='mb-0.5 cursor-pointer appearance-none h-5 w-5 rounded-full bg-gray-300 checked:bg-cyan-600 outline-none' 
+              />
+              <label htmlFor={categoria.id} className='cursor-pointer'>
+                {categoria.nombre}
+              </label>
+            </div>
+          )}
+        </form>
 
         <button
-          onClick={newProd}
+          onClick={()=>finalizar()}
           className="mt-6 w-full py-2 bg-cyan-600 font-medium hover:bg-cyan-500 transition-all duration-150 text-white rounded-md active:bg-cyan-800"
         >
-          Crear
+          {editar==false?"Crear":"Modificar"}
         </button>
       </div>
     </div>
