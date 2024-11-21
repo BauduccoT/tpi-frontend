@@ -1,85 +1,148 @@
-import { useState } from 'react';
-import { Link } from "wouter";
-import Boton from '../../comun/Boton';
-import iconoUser from '../../../assets/person-circle.svg'
+import { useEffect, useState } from 'react';
+import iconoUser from '../../../assets/person-circle.svg';
+import { jwtDecode } from 'jwt-decode';
+import axios from "axios";
+import { useLocation } from 'wouter';
 
 export default function Usuario() {
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [idUsuario, setIdUsuario] = useState();
+
+  const [location, setLocation] = useLocation();
+
+  const [form, setForm] = useState({
+        nombre:"",
+        apellido:"",
+        correo:"",
+      
+  });
+
+  // Función modificar Usuario
+
+  function putUsuario() {
+    const url = 'http://localhost:3000/api/usuarios';
+    const data = {...form}
+    const config = {
+      params:{
+        id:idUsuario
+      }
+    };
+    
+    axios.put(url, data, config)
+      .then((resp) => {
+        if (resp.data.result){
+            setForm({ 
+        nombre:resp.data.result.nombre,
+        apellido:resp.data.result.apellido,
+        correo:resp.data.result.correo,
+        });
+        }
+      }
+    )
+    
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
+  // Función obtener Usuario
+
+  function getUsuario(id) {
+    const url = 'http://localhost:3000/api/usuarios';
+    // const token = sessionStorage.getItem("token");
+    const config = {
+      params:{
+        id
+      }
+    }
+  
+    axios.get(url, config)
+      .then((resp) => {
+        if (resp.data.result){
+            setForm({ 
+        nombre:resp.data.result.nombre,
+        apellido:resp.data.result.apellido,
+        correo:resp.data.result.correo,
+        });
+        }
+      }
+    )
+    
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function cerrarSesionUsuario() { 
+  sessionStorage.removeItem("token");  
+  setLocation('/login');
+
+  }
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token");
+    if(token!==null){
+    const decoded = jwtDecode(token);
+    setIdUsuario(decoded.data.id_usuario); 
+    getUsuario(decoded.data.id_usuario);
+
+    }else{
+      setLocation('/login');
+    }
+
+  },[])
+
 
   return (
-    <div className="flex justify-center items-center mt-14 sm:mt-20 w-screen">
-   
-      <form className="py-20 px-3 sm:p-20 w-full m-3   flex flex-col bg-gray-300 redonded shadow-md sm:w-8/12 items-center sm:m-5 ">
-      {/* <div className='m-5 flex mr-20 mt-0 p-5'>
-      
-      </div>
-       */}
-      <div className='flex flex-row pb-10'>
-      
-      <img src={iconoUser}/>
-      </div>
+    <div className="flex justify-center items-center mt-20 sm:mt-32 w-full px-4">
+      <form className="py-10 px-5 sm:py-12 sm:px-8 w-full max-w-sm bg-gray-300 rounded-lg shadow-md flex flex-col items-center">
+        {/* Icono de Usuario */}
+        <div className="flex justify-center mb-10">
+          <img src={iconoUser} alt="User Icon" className="w-14 h-14 sm:w-16 sm:h-16" />
+        </div>
 
-    <div className='flex flex-col sm:flex-row justify-center gap-5 sm:gap-10 '>
-
-      <div className='flex flex-col gap-4 w-full sm:w-2/4'>
-
-        <div className="mb-8 hover:p-25">
+        {/* Inputs */}
+        <div className="flex flex-col gap-6 w-full mb-10">
           <input
+            value={form.nombre}
             type="text"
             placeholder="Nombre..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setUser(e.target.value)}
+            className="w-full p-3 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-700"
+            onChange={(e) => setForm({...form,nombre:e.target.value})}
           />
-        </div>
-        <div className="mb-8"> 
           <input
-            type="password"
+          value={form.apellido}
+            type="text"
             placeholder="Apellido..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-3 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-700"
+            onChange={(e) => setForm({...form,apellido:e.target.value})}
           />
-        </div>
-
-        <div className="mb-8 hover:p-25">
           <input
-            type="text"
-            placeholder="Gmail..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setUser(e.target.value)}
-          />
-        </div>
-    </div>
-
-
-    <div className='flex flex-col gap-4 w-max sm:w-2/4'>
-        <div className="mb-8"> 
-          <input
-            type="password"
-            placeholder="Usuario..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setPassword(e.target.value)}
+            value={form.correo}
+            type="email"
+            placeholder="Correo electrónico..."
+            className="w-full p-3 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-700"
+            onChange={(e) => setForm({...form,correo:e.target.value})}
           />
         </div>
 
-        <div className="mb-8 hover:p-25">
-          <input
-            type="text"
-            placeholder="Contraseña..."
-            className="w-full p-3 rounded"
-            onChange={(e) => setUser(e.target.value)}
-          />
+        {/* Botones */}
+        <div className="flex justify-center gap-4 mt-6 w-full">
+          <button 
+            onClick={()=>putUsuario()}
+            type="button" 
+            className="w-full sm:w-auto px-6 py-3 text-white bg-orange-500 rounded hover:bg-orange-600 active:bg-orange-700 focus:outline-none">
+            Modificar
+          </button>
+          <button 
+            onClick={()=>cerrarSesionUsuario()}
+            type="button" 
+            className="w-full sm:w-auto px-6 py-3 text-white bg-orange-500 rounded hover:bg-orange-600 active:bg-orange-700 focus:outline-none">
+            Cerrar Sesión
+          </button>
         </div>
-       
-        <div className="flex flex-row justify-center gap-3 max-h-12 ">
-          <Boton texto='Modificar'/>
-          <Boton texto='Cerrar'/>
-        </div>
-    </div>
-    </div>
-      
       </form>
-      
     </div>
   );
 }

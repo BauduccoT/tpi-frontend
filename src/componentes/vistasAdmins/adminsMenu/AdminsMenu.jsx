@@ -4,7 +4,6 @@ import iconoPersona from '../../../assets/person.svg';
 import ModalAdmin from './ModalAdmin'
 import Alert from '../../comun/Alert';
 import axios from 'axios';
-import ModalConfirmar from '../../comunAdmins/ModalConfirmar';
 
 
 export default function AdminsMenu() {
@@ -57,6 +56,29 @@ export default function AdminsMenu() {
         setShowAlert(true);
       });
   }
+
+  function deleteAdmin(adminId) {
+    const url = `http://localhost:3000/api/usuarios-admin`;
+    const token = sessionStorage.getItem('token');
+    const config = {
+      params: { id: adminId },
+      headers: {
+        authorization: token,
+      },
+    };
+
+    axios.delete(url, config)
+      .then((resp) => {
+        console.log(resp);
+        
+        if (resp.data.status === 'ok') {
+          buscarAdmins()
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   
   useEffect(() => {
     buscarAdmins();
@@ -93,7 +115,11 @@ export default function AdminsMenu() {
         {/* Lista de Administradores */}
         <div className="space-y-4 p-6 flex flex-col items-center ">
           {admins?.map((admin, index) => (
-            <AdminsItem modalEditar= {()=> handleOpenModal()} key={admin.id} admin={admin} />
+            <AdminsItem 
+            modalEditar= {()=> handleOpenModal()} 
+            key={admin.id} admin={admin}
+            deleteAdmin={deleteAdmin}
+            />
           ))}
         </div>
 
