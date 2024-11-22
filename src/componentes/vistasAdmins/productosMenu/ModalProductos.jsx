@@ -44,10 +44,10 @@ export default function ModalProd({cerrarModal, newProd, editarProd, prod}) {
   function getCategorias() {
     const url = 'http://localhost:3000/api/categorias';
     axios.get(url)
-    .then((resp) => {
-
-      if(prod!=null && resp.data.categorias) getCatProd(resp.data.categorias)
-      else if(resp.data.categorias) setListaCats(resp.data.categorias) 
+    .then((resp) => {      
+      if(prod!==null && resp.data.categorias) getCatProd(resp.data.categorias) + console.log("ejecuta esto");
+      
+      else if(resp.data.categorias) setListaCats(resp.data.categorias)  + console.log("ejecuta esto otro");
     })
     .catch((error) => {
       console.log(error);
@@ -67,14 +67,17 @@ export default function ModalProd({cerrarModal, newProd, editarProd, prod}) {
         authorization:token
       }
     }
+    
     axios.get(url,config)
     .then((resp) => {
-      if(resp.data.categorias){
-        let catsProd=resp.data.categorias   
-        let listaActualizada = [...lista]     
+      if(resp.data.categoria){
+        let catsProd=resp.data.categoria
+        
+        
+        let listaActualizada = [...lista]
         for(let i=0; i<listaActualizada.length; i++){
           for(let j=0; j<catsProd.length; j++){
-            if(listaActualizada[i].id==catsProd[j].id_categoria){
+            if(listaActualizada[i].id==catsProd[j].id_categoria){              
               setInputRadio(listaActualizada[i].id)
               break
             }

@@ -74,9 +74,8 @@ export default function AdminsMenu() {
       .then((resp) => {
         if (resp.data.status === 'error') {
           setAlertData({ titulo: 'Error', detalle: resp.data.error, check: false });
-        } else {
+        } else if(resp.data.status=="ok"){
           setAlertData({ titulo: 'Exito', detalle: 'Administrador creado correctamente', check: true });
-          setForm({ user: '', pass: '' });
           buscarAdmins();
         }
         setShowAlert(true);
@@ -151,7 +150,6 @@ export default function AdminsMenu() {
             <button
               className="p-2 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold"
               onClick={() => {
-                setForm({ user: '', pass: '' });
                 setIsModalOpen(true);
               }}
             >
