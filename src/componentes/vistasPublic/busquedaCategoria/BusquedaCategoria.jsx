@@ -17,7 +17,7 @@ export default function BusquedaCategoria (){
     },[params.categoria])
 
     function buscarProductos(){
-        const url='http://localhost:3000/api/productos/categoria'
+        const url='http://localhost:3000/api/productos/busqueda/categoria'
         const config={
             params:{
                 id:params.id
