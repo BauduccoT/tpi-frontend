@@ -3,18 +3,18 @@ import iconoUser from '../../../assets/person-circle.svg';
 import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import { useLocation } from 'wouter';
+import Alert from '../../comun/Alert';
 
 export default function Usuario() {
-
-  const [idUsuario, setIdUsuario] = useState();
-
   const [location, setLocation] = useLocation();
+  const [idUsuario, setIdUsuario]=useState()
+  const [showAlert, setShowAlert]=useState(false)
+  const [alertData, setAlertData]=useState({})
 
   const [form, setForm] = useState({
-        nombre:"",
-        apellido:"",
-        correo:"",
-      
+    nombre:"",
+    apellido:"",
+    correo:"",
   });
 
   // Función modificar Usuario
@@ -22,27 +22,42 @@ export default function Usuario() {
   function putUsuario() {
     const url = 'http://localhost:3000/api/usuarios';
     const data = {...form}
+    const token=sessionStorage.getItem("token")
     const config = {
       params:{
         id:idUsuario
+      },
+      headers:{
+        authorization:token
       }
     };
     
     axios.put(url, data, config)
-      .then((resp) => {
-        if (resp.data.result){
-            setForm({ 
-        nombre:resp.data.result.nombre,
-        apellido:resp.data.result.apellido,
-        correo:resp.data.result.correo,
-        });
-        }
+    .then((resp) => {
+      if (resp.data.status=="ok"){
+        setAlertData({
+          titulo:'Usuario modificado correctamente',
+          check:true
+        })
+        setShowAlert(true)
+        getUsuario(idUsuario)
       }
-    )
-    
-      .catch((error) => {
-        console.log(error);
-      });
+      if(resp.data.error){
+        setAlertData({
+          titulo:'Error',
+          detalle:resp.data.error,
+          check:false
+        })
+        setShowAlert(true)
+      }
+    })
+    .catch((error)=>{
+      setAlertData({
+        titulo:'Error',
+        check:false
+      })
+      setShowAlert(true)
+    })
   }
 
 
@@ -60,11 +75,11 @@ export default function Usuario() {
     axios.get(url, config)
       .then((resp) => {
         if (resp.data.result){
-            setForm({ 
-        nombre:resp.data.result.nombre,
-        apellido:resp.data.result.apellido,
-        correo:resp.data.result.correo,
-        });
+          setForm({ 
+            nombre:resp.data.result.nombre,
+            apellido:resp.data.result.apellido,
+            correo:resp.data.result.correo,
+          });
         }
       }
     )
@@ -75,17 +90,16 @@ export default function Usuario() {
   }
 
   function cerrarSesionUsuario() { 
-  sessionStorage.removeItem("token");  
-  setLocation('/login');
-
+    sessionStorage.removeItem("token");  
+    setLocation('/login');
   }
 
   useEffect(()=>{
     const token = sessionStorage.getItem("token");
     if(token!==null){
-    const decoded = jwtDecode(token);
-    setIdUsuario(decoded.data.id_usuario); 
-    getUsuario(decoded.data.id_usuario);
+      const decoded = jwtDecode(token);
+      setIdUsuario(decoded.data.id_usuario); 
+      getUsuario(decoded.data.id_usuario);
 
     }else{
       setLocation('/login');
@@ -96,6 +110,7 @@ export default function Usuario() {
 
   return (
     <div className="flex justify-center items-center mt-20 sm:mt-32 w-full px-4">
+      {showAlert==true&&<Alert data={alertData} click={(value)=>setShowAlert(value)}/>}
       <form className="py-10 px-5 sm:py-12 sm:px-8 w-full max-w-sm bg-gray-300 rounded-lg shadow-md flex flex-col items-center">
         {/* Icono de Usuario */}
         <div className="flex justify-center mb-10">
