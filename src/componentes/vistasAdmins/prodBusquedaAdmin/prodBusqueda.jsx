@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { useParams } from "wouter"
 import axios from "axios"
-import ContenedorProductos from "../../comun/ContenedorProductos"
+import AdminsMenu from "../adminsMenu/AdminsMenu"
 import Alert from "../../comun/Alert"
+import AdminsMenu from "../adminsMenu/AdminsMenu"
 
 export default function Busqueda (){
     const params = useParams()
@@ -12,13 +13,13 @@ export default function Busqueda (){
     
     useEffect(()=>{
         buscarProductos()
-    },[params.nombreProducto])
+    },[params.nombre])
 
     function buscarProductos(){
         const url='http://localhost:3000/api/productos/busqueda'
         const data={
             params:{
-                nombre:params.nombreProducto
+                nombre:params.nombre
             }
         }
         axios.get(url, data)
@@ -53,7 +54,7 @@ export default function Busqueda (){
                     </svg>
                 </button>
             </div>
-            {listaProd!==null?<ContenedorProductos listaProductos={listaProd}/>:null}
+            {listaProd!==null?<AdminsMenu listaProductos={listaProd}/>:null}
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminsItem from './AdminsItem';
+import AdminsItem from './Adminsitem';
 import iconoPersona from '../../../assets/person.svg';
 import ModalAdmin from './ModalAdmin'
 import Alert from '../../comun/Alert';
@@ -128,7 +128,6 @@ export default function AdminsMenu() {
         <ModalAdmin isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Administrador">
         <img src={iconoPersona} alt="Icono de usuario" className="h-8 w-8 mr-8" /> 
         </ModalAdmin>
-
       </div>
     </div>
   </div>

@@ -8,7 +8,7 @@ import eyeSlash from '../../../assets/eye-slash.svg'
 import iconoCarrito from '../../../assets/cart.svg'
 import Alert from '../../comun/Alert';
 
-export default function Login() {
+export default function Login({actualizarToken}) {
   const [showPass, setShowPass]=useState(false)
 
   const [showAlert, setShowAlert]=useState(false)
@@ -33,7 +33,9 @@ export default function Login() {
       .then((resp)=>{
         if(resp.data.token){
           sessionStorage.setItem("token",resp.data.token)
-          const token=jwtDecode(resp.data.token)          
+          const token=jwtDecode(resp.data.token)
+          actualizarToken()
+          console.log("se ejecuta la funcion actualizar token")
           if(token.data.admin>=1){
             setLocation('/admin/productos')
           }
@@ -71,11 +73,11 @@ export default function Login() {
     }
   }
 
-  // useEffect(()=>{
-  //   const token=sessionStorage.getItem("token")
-  //   if(token!==null && token.data?.admin>0 ) setLocation("/admin/productos")
-  //   else if(token!==null)setLocation("/home")
-  // })
+  useEffect(()=>{
+    const token=sessionStorage.getItem("token")
+    if(token!==null && token.data?.admin>0 ) setLocation("/admin/productos")
+    else if(token!==null)setLocation("/home")
+  }, [])
 
   return (
     <div className="flex justify-center items-center h-screen bg-purple-900 sm:bg-white">
