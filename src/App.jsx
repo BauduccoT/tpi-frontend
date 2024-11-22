@@ -94,6 +94,14 @@ export default function App() {
             {/* {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>} */}
           </Route>
 
+          <Route path="/admin/prod-busqueda/:nombre">
+          <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Por favor, ingrese un producto
+              </p>
+          </div>
+          </Route>
+
           <Route path="/admin/admins">
             <NavbarAdmins/>
             <AdminsMenu/>
