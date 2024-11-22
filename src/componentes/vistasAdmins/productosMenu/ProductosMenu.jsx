@@ -40,13 +40,17 @@ export default function ProductosMenu() {
 
   function buscarProductosFiltrados(){
     if(buscador!==""){
-      const url='http://localhost:3000/api/productos/busqueda'
-      const data={
-          params:{
-              nombre:buscador
-          }
+      const token=sessionStorage.getItem("token")
+      const url='http://localhost:3000/api/productos/busqueda-nombre'
+      const config={
+        params:{
+          nombre:buscador
+        },
+        headers:{
+          authorization:token
+        }
       }
-      axios.get(url, data)
+      axios.get(url, config)
       .then((resp)=>{
           if(resp.data.lista)setProductos(resp.data.lista)
           if(resp.data.error){
@@ -68,9 +72,16 @@ export default function ProductosMenu() {
       })
     }
   }
+
   function buscarProd() {
-    const url = `http://localhost:3000/api/productos?limit=${itemsPage}&offset=${(currentPage - 1) * itemsPage}`
-    axios.get(url)
+    const url = `http://localhost:3000/api/productos/busqueda-todos?limit=${itemsPage}&offset=${(currentPage - 1) * itemsPage}`
+    const token=sessionStorage.getItem("token")
+    const config={
+      headers:{
+        authorization:token
+      },
+    }
+    axios.get(url,config)
       .then((resp) => {
         if (resp.data.status === "error") {
           setAlertData({
