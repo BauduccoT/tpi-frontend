@@ -1,15 +1,27 @@
-import React, { useState } from "react"
-import { Link } from 'wouter'
+import React, { useEffect, useState } from "react";
+import { useLocation } from "wouter";
 
-export default function Categoria (props){
+export default function Categoria({ categoria }) {
+
+    const [id, setId]= useState();
+    const [location, setLocation]=useLocation();
+
+    useEffect(()=>{
+        setId(categoria.id);
+    },[])
+
+    function obtenerProdCat() {
+        setLocation(`/categoria/${id}`)
+    }
 
 
-    return(
-        
-        <div className="bg-white py-8 px-4  ">
-            <div className="flex gap-4">
-                <div className="bg-blue-950 p-3 items-center text-white rounded-md h-12 transition-all hover:-translate-y-2 duration-300 cursor-pointer"></div>
-            </div>
-        </div>
-)
+  return (
+    <button
+      className="bg-violet-900 hover:bg-orange-500 text-white px-6 py-3 rounded whitespace-nowrap transition-colors duration-200"
+      onClick={() => obtenerProdCat() }
+
+    >
+      {categoria.nombre}
+    </button>
+  );
 }

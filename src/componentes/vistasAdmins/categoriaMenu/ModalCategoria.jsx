@@ -1,4 +1,3 @@
-// ModalCat.js
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 
@@ -60,7 +59,7 @@ export default function ModalCat({ closeModal, getCategorias, modificar, categor
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error, "");
     });
   }
 

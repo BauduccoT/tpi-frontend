@@ -4,24 +4,26 @@ import axios from "axios"
 import ContenedorProductos from "../../comun/ContenedorProductos"
 import Alert from "../../comun/Alert"
 
-export default function Busqueda (){
+export default function BusquedaCategoria (){
     const params = useParams()
+
     const [listaProd, setListaProd]=useState([])
+
     const [showAlert, setShowAlert]=useState(false)
     const [alertData, setAlertData]=useState({})
     
     useEffect(()=>{
         buscarProductos()
-    },[params.nombreProducto])
+    },[params.categoria])
 
     function buscarProductos(){
-        const url='http://localhost:3000/api/productos/busqueda'
-        const data={
+        const url='http://localhost:3000/api/productos/categoria'
+        const config={
             params:{
-                nombre:params.nombreProducto
+                id:params.id
             }
         }
-        axios.get(url, data)
+        axios.get(url, config)
         .then((resp)=>{
             if(resp.data.lista)setListaProd(resp.data.lista)
             if(resp.data.error){

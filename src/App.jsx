@@ -14,17 +14,23 @@ import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMen
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import ProductosMenu from './componentes/vistasAdmins/productosMenu/ProductosMenu';
 import { jwtDecode } from 'jwt-decode';
+import BusquedaCategoria from './componentes/vistasPublic/busquedaCategoria/BusquedaCategoria';
 
 export default function App() {
 
   const [token,setToken]=useState(null)
 
-  useEffect(()=>{
+  function actualizarToken(){
     let newToken=sessionStorage.getItem("token")
     if(newToken==null) return setToken(false)
     newToken= jwtDecode(newToken)
+    console.log("se ejecuta actu token")
     console.log(newToken)
     setToken(newToken)
+  }
+
+  useEffect(()=>{
+    actualizarToken()
   },[])
 
   return (
@@ -39,7 +45,7 @@ export default function App() {
           </Route>
 
           <Route path="/login">
-            <Login/>
+            <Login actualizarToken={()=>actualizarToken()}/>
           </Route>
 
           <Route path="/registro">
@@ -70,6 +76,11 @@ export default function App() {
             <VistaProducto />
           </Route>
 
+          <Route path="/categoria/:id">
+            <Navbar/>
+            <BusquedaCategoria />
+          </Route>
+
           <Route path="/carrito">
             <Navbar/>
             <Carrito/>
@@ -77,27 +88,35 @@ export default function App() {
 
           <Route path="/usuario">
             <Navbar/>
-            <Usuario/>
-            {/* {console.log("Token in /usuario route:", token)}
-            {token !== null && token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>} */}
+            
+            {token !== null && (token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>)}
           </Route>
 
           <Route path="/admin/categorias">
-            <NavbarAdmins/>
-            <CategoriaMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/> } */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {token !== null && (token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/>) }
           </Route>
 
           <Route path="/admin/productos">
-            <NavbarAdmins/>
-            <ProductosMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>} */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {console.log(token)}
+            {token !== null && (token.data?.admin >= 1 ? <ProductosMenu/> :<Redirect to='/login'/>)}
+          </Route>
+
+          <Route path="/admin/prod-busqueda/:nombre">
+          <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Por favor, ingrese un producto
+              </p>
+          </div>
           </Route>
 
           <Route path="/admin/admins">
-            <NavbarAdmins/>
-            <AdminsMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>} */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {token !== null && (token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>)}
           </Route>
 
           

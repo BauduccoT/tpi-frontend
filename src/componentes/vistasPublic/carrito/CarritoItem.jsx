@@ -31,7 +31,9 @@ export default function CarritoItem({producto, eliminarProd, setUnidCarrito}) {
         
             <div className='flex flex-row items-center w-full sm:w-3/5'>
                 <div className="flex justify-center w-2/5 ">
-                    <div className="w-16 h-16 bg-gray-300 rounded-md" />
+                    <div className="w-16 h-16 rounded-md">
+                        <img src={`http://localhost:3000/${producto.img}`} alt="" />
+                    </div>
                 </div>
 
 
