@@ -9,28 +9,28 @@ export default function ProductoItem({editar, producto, deleteProducto}) {
 
 
   return (
-    <div className="flex flex-row bg-gray-100 hover:bg-gray-300 p-4 rounded-md shadow-md font-Arial w-3/4">
+    <div className="flex md:flex-row flex-col bg-gray-100 hover:bg-gray-300 p-4 rounded-md shadow-md font-Arial w-3/4">
        {modalEliminar==true && <ModalEliminar
         title={`¿Eliminar Producto "${producto.nombre}"?`}
         id={producto.id}
         deleteItem={(id)=> deleteProducto(id)}
         cerrar={()=> setModalEliminar(false)}
       />}
-      <div className="h-40 bg-grey rounded-md flex w-2/6 justify-center items-center">
+      <div className="h-40 bg-grey rounded-md flex md:w-2/6 w-full justify-center items-center">
           <img src={`http://localhost:3000/${producto.img_url}`} alt="" className='h-full w-2/5'/>
 
       </div>
       <div className='flex flex-col py-3 justify-start w-4/6'>
-        <div className='flex sm:flex-row p-2 space-x-4 flex-col'>
-          <span className="font-bold">{producto.nombre}</span>
-          <span className="font-bold">{producto.precio_unidad}$</span>
-          <span className="font-bold">{producto.tock}</span>
+        <div className='flex md:flex-row flex-col p-2 md:space-x-2 space-x-0'>
+          <span className="font-bold md:w-2/3 w-full">{producto.nombre}</span>
+          <span className="font-bold">precio:{producto.precio_unidad}$</span>
+          <span className="font-bold">stock:{producto.stock}</span>
         </div>
         <div className='flex'>
           <span className="font-bold">{producto.descripcion}</span>
         </div>
       </div>
-      <div className="flex space-y-4 flex-col items-center h-full mt-4"  >
+      <div className="flex md:space-y-4  space-y-0 md:flex-col flex-row justify-center space-x-5 md:space-x-0 items-center h-full mt-4"  >
         <button className="px-3 py-4 bg-cyan-700 text-white rounded active:bg-cyan-800 font-bold"  onClick={()=>editar(producto)} >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
