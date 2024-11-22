@@ -26,7 +26,6 @@ export default function CategoriaMenu() {
     
     if(token!==null){
       const decoded = jwtDecode(token)
-      console.log(decoded.data.admin)
       if(decoded.data.admin==0) setLocation('/home');
     }
     else{

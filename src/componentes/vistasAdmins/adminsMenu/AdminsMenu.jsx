@@ -12,16 +12,16 @@ export default function AdminsMenu() {
   const [showAlert, setShowAlert] = useState(false);
   const [alertData, setAlertData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form, setForm] = useState({ id:'' ,user: '', pass: '' });
   const [editMode, setEditMode] = useState(false);
   const [location, setLocation]=useLocation()
+  const [adminEditar, setAdminEditar]=useState(null)
 
   useEffect(()=>{
     const token = sessionStorage.getItem("token");
     
     if(token!==null){
       const decoded = jwtDecode(token)
-      console.log(decoded.data.admin)
+      if(decoded.data.admin==1) setLocation('/admin/productos');
       if(decoded.data.admin==0) setLocation('/home');
     }
     else{
@@ -64,7 +64,7 @@ export default function AdminsMenu() {
       .catch((error) => console.error(error));
   }
 
-  function crearAdmin() {
+  function crearAdmin(form) {
     const url = 'http://localhost:3000/api/usuarios-admin';
     const token = sessionStorage.getItem('token');
     const config = { headers: { authorization: token } };
@@ -91,10 +91,13 @@ export default function AdminsMenu() {
       });
   }
 
-  function modificarAdmin() {
-    const url = `http://localhost:3000/api/usuarios-admin?id=${form.id}`;
+  function modificarAdmin(form) {
+    const url = `http://localhost:3000/api/usuarios-admin`;
     const token = sessionStorage.getItem('token');
-    const config = { 
+    const config = {
+      params:{
+        id:form.id
+      },
       headers: { 
         authorization: token 
       } 
@@ -112,7 +115,6 @@ export default function AdminsMenu() {
           setAlertData({ titulo: 'Error', detalle: resp.data.error, check: false });
         } else {
           setAlertData({ titulo: 'Éxito', detalle: 'Administrador modificado correctamente', check: true });
-          setForm({ id: '', user: '', pass: '' })
           buscarAdmins();
         }
         setShowAlert(true);
@@ -133,15 +135,12 @@ export default function AdminsMenu() {
         {showAlert && <Alert data={alertData} click={(value) => setShowAlert(value)} />}
         {isModalOpen && (
           <ModalAdmin
-            title={editMode ? 'Modificar Administrador' : 'Agregar Administrador'}
-            buscar={buscarAdmins}
-            crear={crearAdmin}
-            modificar={modificarAdmin}
-            form={form}
-            setForm={setForm}
+            crear={(form)=>crearAdmin(form)}
+            modificar={(form)=>modificarAdmin(form)}
+            admin={adminEditar}
             cerrar={() => {
               setIsModalOpen(false);
-              setEditMode(false);
+              setAdminEditar(null);
             }}
 
           />
@@ -167,30 +166,13 @@ export default function AdminsMenu() {
                 admin={admin}
                 deleteAdmin={eliminarAdmin}
                 modificar={(admin) => {
-                  setForm({ id: admin.id, user: admin.user, pass: admin.pass })
-                  setEditMode(true);
+                  setAdminEditar(admin)
                   setIsModalOpen(true);
                 }}
               />
             ))}
           </div>
-        </div>
-
-        {/* Lista de Administradores
-        <div className="space-y-4 p-6 flex flex-col items-center ">
-          {admins?.map((admin, index) => (
-            <AdminsItem 
-            modalEditar= {()=> handleOpenModal()} 
-            key={admin.id} admin={admin}
-            deleteAdmin={deleteAdmin}
-            />
-          ))}
-        </div>
-
-        <ModalAdmin isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Administrador">
-        <img src={iconoPersona} alt="Icono de usuario" className="h-8 w-8 mr-8" /> 
-        </ModalAdmin> */}
-        
+        </div>        
       </div>
     </div>
   );

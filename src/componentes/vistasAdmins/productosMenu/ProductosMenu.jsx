@@ -23,14 +23,13 @@ export default function ProductosMenu() {
     if (buscador==="") {
       buscarProd()
     }
-  },[buscador,currentPage])
+  },[buscador, currentPage])
   
   useEffect(()=>{
     const token = sessionStorage.getItem("token");
     
     if(token!==null){
       const decoded = jwtDecode(token)
-      console.log(decoded.data.admin)
       if(decoded.data.admin==0) setLocation('/home');
     }
     else{

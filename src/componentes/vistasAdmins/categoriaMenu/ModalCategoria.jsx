@@ -67,11 +67,13 @@ export default function ModalCat({ closeModal, getCategorias, modificar, categor
 
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg p-8 max-w-md w-full relative">
-        <button
+      <button
           onClick={()=>closeModal()}
-          className="absolute top-4 right-4 text-red-600 font-bold text-xl"
+          className="absolute top-4 right-4 text-red-600 font-bold text-xl hover:bg-slate-300 rounded-md"
         >
-          x
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
         </button>
         <h2 className="text-lg font-bold mb-6 text-center">{modificar==true?"Modificar Categoría": "Crear Categoría"}</h2>
         <div className="space-y-4">
