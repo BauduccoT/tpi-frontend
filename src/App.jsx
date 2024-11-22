@@ -14,6 +14,7 @@ import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMen
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import ProductosMenu from './componentes/vistasAdmins/productosMenu/ProductosMenu';
 import { jwtDecode } from 'jwt-decode';
+import BusquedaCategoria from './componentes/vistasPublic/busquedaCategoria/BusquedaCategoria';
 
 export default function App() {
 
@@ -75,6 +76,11 @@ export default function App() {
             <VistaProducto />
           </Route>
 
+          <Route path="/categoria/:id">
+            <Navbar/>
+            <BusquedaCategoria />
+          </Route>
+
           <Route path="/carrito">
             <Navbar/>
             <Carrito/>
@@ -97,6 +103,14 @@ export default function App() {
             
             {console.log(token)}
             {token !== null && (token.data?.admin >= 1 ? <ProductosMenu/> :<Redirect to='/login'/>)}
+          </Route>
+
+          <Route path="/admin/prod-busqueda/:nombre">
+          <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
+              <p className='text-xl text-slate-600'>
+                Por favor, ingrese un producto
+              </p>
+          </div>
           </Route>
 
           <Route path="/admin/admins">
