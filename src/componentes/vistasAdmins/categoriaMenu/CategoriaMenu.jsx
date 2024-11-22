@@ -23,8 +23,6 @@ export default function CategoriaMenu() {
     setModalCategoria(false);
   };
 
-
-
   // Función para obtener las categorías
   function getCategorias() {
     const url = 'http://localhost:3000/api/categorias';
@@ -81,13 +79,9 @@ export default function CategoriaMenu() {
     <div className="flex h-screen bg-gray-300">
       {modalCategoria==true && <ModalCat
             closeModal={()=>closeModal()}
-
-            getCategorias={getCategorias} // Pasar la función getCategorias
-
+            getCategorias={getCategorias}
             categoria={categoriaModif}
-
             modificar={modificar}
-            
             />
   
       }

@@ -51,7 +51,7 @@ export default function ProductosMenu() {
   }, [currentPage])
 
   function deleteProducto(productoId) {
-    const url = `http://localhost:3000/api/producto`;
+    const url = `http://localhost:3000/api/productos`;
     const token = sessionStorage.getItem('token');
     const config = {
       params: { id: productoId },
