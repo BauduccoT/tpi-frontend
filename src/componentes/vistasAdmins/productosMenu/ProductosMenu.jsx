@@ -3,6 +3,8 @@ import ModalProd from "./ModalProductos";
 import ProductoItem from "./ProductoItem";
 import Alert from '../../comun/Alert';
 import axios from 'axios';
+import { useLocation } from 'wouter';
+import { jwtDecode } from 'jwt-decode';
 
 export default function ProductosMenu() {
   const [modalProdOpen, setModalProdOpen] = useState(false);
@@ -13,7 +15,7 @@ export default function ProductosMenu() {
   const [buscador,setBuscador]=useState("")
   const itemsPage = 10
   const [lastPage, setLastPage]=useState(false)
-
+  const [location, setLocation]=useLocation()
 
   const [prodEditar, setProdEditar]=useState(null)
 
@@ -21,7 +23,21 @@ export default function ProductosMenu() {
     if (buscador==="") {
       buscarProd()
     }
-  },[buscador])
+  },[buscador,currentPage])
+  
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token");
+    
+    if(token!==null){
+      const decoded = jwtDecode(token)
+      console.log(decoded.data.admin)
+      if(decoded.data.admin==0) setLocation('/home');
+    }
+    else{
+      setLocation('/home');
+    }
+    buscarProd()
+  },[])
 
   function buscarProductosFiltrados(){
     if(buscador!==""){
@@ -194,9 +210,7 @@ export default function ProductosMenu() {
     setModalProdOpen(true)
   }
 
-  useEffect(() => {
-    buscarProd();
-  }, [currentPage])
+  
 
   function deleteProducto(productoId) {
     const url = `http://localhost:3000/api/productos`;
@@ -266,19 +280,19 @@ export default function ProductosMenu() {
               key={producto.id}
               producto={producto}
               editar={(producto)=>modalEditarProd(producto)}
-              deleteProducto={deleteProducto}
+              deleteProducto={(id)=>deleteProducto(id)}
             />
           ))}
         </div>
 
           {buscador!=""?null: <div className="flex justify-center space-x-4">
-          <button className='p-2 mb-3 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer disabled:bg-orange-800' onClick={handlePrevPage} disabled={currentPage===1}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+          <button className='p-2 mb-3 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer disabled:bg-orange-800' onClick={handlePrevPage} disabled={currentPage===1}> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
           </svg>
           </button>
           <h1 className='mt-2 mb-3'>{currentPage}</h1>
-          <button className='p-2 mb-3 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer disabled:bg-orange-800' onClick={handleNextPage} disabled={lastPage}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+          <button className='p-2 mb-3 bg-orange-500 text-white rounded-md active:bg-orange-600 font-bold cursor-pointer disabled:bg-orange-800' onClick={handleNextPage} disabled={lastPage}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
           </svg>
           </button>
         </div>}

@@ -9,7 +9,7 @@ export default function NavbarAdmins({actualizarToken}) {
   function cerrarSesion(){
     sessionStorage.removeItem("token")
     actualizarToken()
-    location("/login")
+    setLocation("/login")
   }
 
   return (

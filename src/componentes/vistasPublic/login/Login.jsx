@@ -35,11 +35,11 @@ export default function Login({actualizarToken}) {
           sessionStorage.setItem("token",resp.data.token)
           const token=jwtDecode(resp.data.token)
           actualizarToken()
-          console.log("se ejecuta la funcion actualizar token")
-          if(token.data.admin>=1){
+          console.log(token.data.admin)
+          if(token.data.admin==1 || token.data.admin==2){
             setLocation('/admin/productos')
           }
-          else{
+          else if(token.data.admin==0){
            setLocation('/home')
           }
         }

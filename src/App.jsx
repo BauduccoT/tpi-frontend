@@ -88,35 +88,29 @@ export default function App() {
 
           <Route path="/usuario">
             <Navbar/>
-            
-            {token !== null && (token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>)}
+            <Usuario actualizarToken={()=>actualizarToken()}/>
+
+            {/* {token !== null && (token.data?.id_usuario ?<Usuario actualizarToken={()=>actualizarToken()}/>:<Redirect to='/login'/>)} */}
           </Route>
 
           <Route path="/admin/categorias">
             <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
-            
-            {token !== null && (token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/>) }
+            <CategoriaMenu/>
+
+            {/* {token !== null && (token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/>) } */}
           </Route>
 
           <Route path="/admin/productos">
             <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
-            
-            {console.log(token)}
-            {token !== null && (token.data?.admin >= 1 ? <ProductosMenu/> :<Redirect to='/login'/>)}
-          </Route>
-
-          <Route path="/admin/prod-busqueda/:nombre">
-          <div className='flex justify-center h-24 p-20 left-0 right-0 mt-14 sm:mt-20'>
-              <p className='text-xl text-slate-600'>
-                Por favor, ingrese un producto
-              </p>
-          </div>
+            <ProductosMenu/>
+            {/* {token !== null && (token.data?.admin >= 1 ? <ProductosMenu/> :<Redirect to='/login'/>)} */}
           </Route>
 
           <Route path="/admin/admins">
             <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
-            
-            {token !== null && (token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>)}
+            <AdminsMenu/>
+
+            {/* {token !== null && (token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>)} */}
           </Route>
 
           

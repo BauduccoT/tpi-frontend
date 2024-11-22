@@ -3,6 +3,8 @@ import axios from "axios";
 // import ModalAlerta from '../../comunAdmins/ModalAlerta';
 import CategoriaItem from './CategoriaItem';
 import ModalCat from './ModalCategoria';
+import { useLocation } from 'wouter';
+import { jwtDecode } from 'jwt-decode';
 
 
 export default function CategoriaMenu() {
@@ -16,6 +18,22 @@ export default function CategoriaMenu() {
   const [categoriaModif, setCategoriaModif] = useState({});
 
   // const [modalEliminar, setModalEliminar] = useState(false); 
+
+  const [location, setLocation]=useLocation()
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token");
+    
+    if(token!==null){
+      const decoded = jwtDecode(token)
+      console.log(decoded.data.admin)
+      if(decoded.data.admin==0) setLocation('/home');
+    }
+    else{
+      setLocation('/home');
+    }
+    getCategorias()
+  },[])
 
   function closeModal(){
     setModificar(false)
@@ -70,10 +88,6 @@ export default function CategoriaMenu() {
         console.error(error);
       });
   }
-
-  useEffect(() => {
-    getCategorias();
-  }, []);
 
   return (
     <div className="flex h-screen bg-gray-300">

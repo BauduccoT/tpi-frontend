@@ -3,7 +3,7 @@ import ModalProd from './ModalProductos';
 import ModalEliminar from '../../comunAdmins/ModalEliminar';
 
 
-export default function ProductoItem({editar, producto}) {
+export default function ProductoItem({editar, producto, deleteProducto}) {
 
   const [modalEliminar, setModalEliminar] = useState(false)
 

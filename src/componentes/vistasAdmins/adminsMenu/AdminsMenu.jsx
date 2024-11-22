@@ -4,6 +4,8 @@ import iconoPersona from '../../../assets/person.svg';
 import ModalAdmin from './ModalAdmin';
 import Alert from '../../comun/Alert';
 import axios from 'axios';
+import { useLocation } from 'wouter';
+import { jwtDecode } from 'jwt-decode';
 
 export default function AdminsMenu() {
   const [admins, setAdmins] = useState([]);
@@ -12,6 +14,21 @@ export default function AdminsMenu() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState({ id:'' ,user: '', pass: '' });
   const [editMode, setEditMode] = useState(false);
+  const [location, setLocation]=useLocation()
+
+  useEffect(()=>{
+    const token = sessionStorage.getItem("token");
+    
+    if(token!==null){
+      const decoded = jwtDecode(token)
+      console.log(decoded.data.admin)
+      if(decoded.data.admin==0) setLocation('/home');
+    }
+    else{
+      setLocation('/home');
+    }
+    buscarAdmins()
+  },[])
 
   function buscarAdmins() {
     const url = 'http://localhost:3000/api/usuarios-admin';
@@ -110,8 +127,6 @@ export default function AdminsMenu() {
       });
   }
 
-  useEffect(() => buscarAdmins(), []);
-
   return (
     <div className="w-screen flex justify-end">
       <div className="flex h-screen w-full bg-gray-300">
@@ -161,7 +176,7 @@ export default function AdminsMenu() {
           </div>
         </div>
 
-        {/* Lista de Administradores */}
+        {/* Lista de Administradores
         <div className="space-y-4 p-6 flex flex-col items-center ">
           {admins?.map((admin, index) => (
             <AdminsItem 
@@ -172,10 +187,9 @@ export default function AdminsMenu() {
           ))}
         </div>
 
-        {/* Modal para Agregar */}
         <ModalAdmin isOpen={isModalOpen} onClose={handleCloseModal} title="Agregar Administrador">
         <img src={iconoPersona} alt="Icono de usuario" className="h-8 w-8 mr-8" /> 
-        </ModalAdmin>
+        </ModalAdmin> */}
         
       </div>
     </div>

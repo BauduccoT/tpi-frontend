@@ -5,7 +5,7 @@ import axios from "axios";
 import { useLocation } from 'wouter';
 import Alert from '../../comun/Alert';
 
-export default function Usuario() {
+export default function Usuario({actualizarToken}) {
   const [location, setLocation] = useLocation();
   const [idUsuario, setIdUsuario]=useState()
   const [showAlert, setShowAlert]=useState(false)
@@ -90,7 +90,8 @@ export default function Usuario() {
   }
 
   function cerrarSesionUsuario() { 
-    sessionStorage.removeItem("token");  
+    sessionStorage.removeItem("token");
+    actualizarToken()
     setLocation('/login');
   }
 
