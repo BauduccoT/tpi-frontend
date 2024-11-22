@@ -14,6 +14,7 @@ import CategoriaMenu from './componentes/vistasAdmins/categoriaMenu/CategoriaMen
 import AdminsMenu from './componentes/vistasAdmins/adminsMenu/AdminsMenu';
 import ProductosMenu from './componentes/vistasAdmins/productosMenu/ProductosMenu';
 import { jwtDecode } from 'jwt-decode';
+import BusquedaCategoria from './componentes/vistasPublic/busquedaCategoria/BusquedaCategoria';
 
 export default function App() {
 
@@ -68,6 +69,11 @@ export default function App() {
           <Route path="/producto/:id">
             <Navbar/>
             <VistaProducto />
+          </Route>
+
+          <Route path="/categoria/:id">
+            <Navbar/>
+            <BusquedaCategoria />
           </Route>
 
           <Route path="/carrito">
