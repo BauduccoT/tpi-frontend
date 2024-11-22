@@ -19,12 +19,17 @@ export default function App() {
 
   const [token,setToken]=useState(null)
 
-  useEffect(()=>{
+  function actualizarToken(){
     let newToken=sessionStorage.getItem("token")
     if(newToken==null) return setToken(false)
     newToken= jwtDecode(newToken)
+    console.log("se ejecuta actu token")
     console.log(newToken)
     setToken(newToken)
+  }
+
+  useEffect(()=>{
+    actualizarToken()
   },[])
 
   return (
@@ -39,7 +44,7 @@ export default function App() {
           </Route>
 
           <Route path="/login">
-            <Login/>
+            <Login actualizarToken={()=>actualizarToken()}/>
           </Route>
 
           <Route path="/registro">
@@ -77,21 +82,21 @@ export default function App() {
 
           <Route path="/usuario">
             <Navbar/>
-            <Usuario/>
-            {/* {console.log("Token in /usuario route:", token)}
-            {token !== null && token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>} */}
+            
+            {token !== null && (token.data?.id_usuario ?<Usuario/>:<Redirect to='/login'/>)}
           </Route>
 
           <Route path="/admin/categorias">
-            <NavbarAdmins/>
-            <CategoriaMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/> } */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {token !== null && (token.data?.admin >=1 ? <CategoriaMenu/> : <Redirect to='/login'/>) }
           </Route>
 
           <Route path="/admin/productos">
-            <NavbarAdmins/>
-            <ProductosMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin>=1?<ProductosMenu/>:<Redirect to='/login'/>} */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {console.log(token)}
+            {token !== null && (token.data?.admin >= 1 ? <ProductosMenu/> :<Redirect to='/login'/>)}
           </Route>
 
           <Route path="/admin/prod-busqueda/:nombre">
@@ -103,9 +108,9 @@ export default function App() {
           </Route>
 
           <Route path="/admin/admins">
-            <NavbarAdmins/>
-            <AdminsMenu/>
-            {/* {token !== null && token.data?.admin && token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>} */}
+            <NavbarAdmins actualizarToken={()=>actualizarToken()}/>
+            
+            {token !== null && (token.data?.admin==2?<AdminsMenu/>:<Redirect to='/admin/productos'/>)}
           </Route>
 
           
